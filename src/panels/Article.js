@@ -6,6 +6,7 @@ import Icon24Back from '@vkontakte/icons/dist/24/back';
 import axios from 'axios'
 
 import PayWall from '../components/PayWall.js'
+import AppState from '../components/AppState'
 
 const osname = platform();
 
@@ -18,13 +19,16 @@ class Article extends React.Component {
   }
   componentWillReceiveProps (props) {
     if (props.article !== null && (this.state.article === null || this.state.article.title !== props.article.title)) {
-      axios.get('/about-lorem-ipsum.json').then(res => {
-        this.setState({article: res.data})
-        this.props.setPayWallData({
-          tags: res.data.tags,
-          publisher: res.data.publisher,
-          title: res.data.title,
-          price: res.data.price,
+      axios.get('https://agentstvo-adv.ru:3000/api/getNews').then(res => {
+        const data = res.data.result
+        this.setState({article: data})
+        AppState.set({
+          article: {
+            tags: data.tags,
+            publisher: data.publisher,
+            title: data.title,
+            price: data.price,
+          }
         })
       }).catch((e) => {
         this.setState({article: {

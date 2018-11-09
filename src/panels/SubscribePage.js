@@ -4,7 +4,7 @@ import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Icon24Search from '@vkontakte/icons/dist/24/search';
 import Icon28Info from '@vkontakte/icons/dist/28/info_outline';
-  
+import AppState from '../components/AppState'
 
 const availiblePeriods = ['Неделя', 'Две недели', 'Месяц', '6 Месяцев', 'Год', '5 лет']
 
@@ -65,11 +65,13 @@ class SubscribePage extends React.Component {
   }
   componentDidMount() {
     const newState = {selected: {}}
-    if (this.props.articleData.publisher)
-      newState.selected.publishers = [this.props.articleData.publisher]
-    if (this.props.articleData.tags)
-      newState.selected.tags = this.props.articleData.tags
-    this.setState(newState)
+    const globalState = window.getGlobalState()
+    console.log(AppState)
+    // if (globalState.article.publisher)
+    //   newState.selected.publishers = [globalState.article.publisher]
+    // if (globalState.article.tags)
+    //   newState.selected.tags = globalState.article.tags
+    // this.setState(newState)
   }
   render() {
     let sumPrice = 0
@@ -162,7 +164,7 @@ class SubscribePage extends React.Component {
                     <img className="subscribe-pic" src={item.pic} />
                     {item.label} -
                     {!this.state.selected[this.state.tab].includes(item.label) ? (priceTimeFactor(item.price, this.state.periodType) + 'р.') : 'добавлено'}
-                    <Link><Icon28Info /></Link>
+                    <Link onClick={() => this.props.open('channel-preview')}><Icon28Info /></Link>
                   </Button>)}
                 </FormLayoutGroup>
               </FormLayout>
