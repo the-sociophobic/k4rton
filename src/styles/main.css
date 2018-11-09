@@ -1,0 +1,51 @@
+.Header .Header__content{
+  font-size: 1.3em;
+}
+.Gallery {
+  margin: auto;
+  max-width: 100%
+}
+#article .Panel__in > .Group > .Group__content > .Div,
+#article .Panel__in > .Group > .Group__content > .Header {
+  max-width: 600px;
+  margin: auto;
+  width: 100%;
+}
+
+.last-text-block {
+  position: relative;
+}
+.last-text-block:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#999999+1,e5e5e5+100 */
+  background: rgba(255, 255, 255, 0); /* Old browsers */
+  background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 1%, rgba(255, 255, 255, 1) 80%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 1%,rgba(255, 255, 255, 1) 80%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 1%,rgba(255, 255, 255, 1) 80%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='rgba(255, 255, 255, 0)', endColorstr='rgba(255, 255, 255, 1)',GradientType=0 ); /* IE6-9 */
+}
+.lock-icon {
+  margin: auto;
+  width: 80px;
+  height: 80px;
+  margin-bottom: -80px;
+  position: relative;
+  top: -80px;
+  display: block;
+}
+.payWall-title {
+  color: grey;
+  text-align: center
+}
+.double-buttons {
+  display: flex;
+  justify-content: space-around;
+}
+.double-buttons .Button__content {
+  line-height: 1.3
+}
