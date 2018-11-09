@@ -1,0 +1,24 @@
+{
+  "title": "About lorem ipsum",
+  "tags": ["политика"],
+  "publisher": "Бумага",
+  "article": [{
+    "type": "header",
+    "text": "About lorem ipsum",
+    "size": 1
+  }, {
+    "type": "text",
+    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a eros sed quam egestas faucibus. Praesent feugiat a massa sed rhoncus. Nullam a eros vulputate, sodales leo eu, volutpat tortor. Morbi commodo condimentum justo, ut tempor est. Cras porttitor neque quam, ac facilisis est dictum in. Pellentesque luctus ornare aliquet. Curabitur eget semper urna, ut facilisis metus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;"
+  }, {
+    "type": "text",
+    "text": "Some cute pics of lorem ipsum"
+  }, {
+    "type": "gallery",
+    "pics": [
+      "http://cdn.mhpbooks.com/uploads/2014/03/test_ttp_big.jpg",
+      "https://cdn-images-1.medium.com/max/1600/1*WLl3rBheKSkWjdNX_H-Pxw.png",
+      "https://quinncreative.com/wp-content/uploads/lorem_ipsum_by_neosh.jpg"
+    ]
+  }],
+  "payWall": 30
+}

@@ -7,9 +7,9 @@
 }
 #article .Panel__in > .Group > .Group__content > .Div,
 #article .Panel__in > .Group > .Group__content > .Header {
-  max-width: 600px;
+  /*max-width: 600px;*/
   margin: auto;
-  width: 100%;
+  /*width: 100%;*/
 }
 
 .last-text-block {
@@ -22,6 +22,7 @@
   height: 100%;
   left: 0;
   top: 0;
+  pointer-events: none;
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#999999+1,e5e5e5+100 */
   background: rgba(255, 255, 255, 0); /* Old browsers */
   background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 1%, rgba(255, 255, 255, 1) 80%); /* FF3.6-15 */
@@ -48,4 +49,43 @@
 }
 .double-buttons .Button__content {
   line-height: 1.3
+}
+.double-buttons .Button {
+  margin: 5px;
+}
+.subscribe-pic {
+  width: 2em;
+  height: 2em;
+  vertical-align: middle;
+  border-radius: 50%;
+  margin-right: 20px
+}
+.subscribe-pic + .Link, .subscribe-pic + .Link .Icon {
+  vertical-align: middle;
+  display: inline-block;
+  float: right;
+}
+.subscribe-source-btn, .subscribe-source-btn .Button__content {
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 6px 10px;
+  padding-right: 20px;
+}
+.pay-subscribtion {
+  margin: 5px 0 !important;
+  width: 100%;
+}
+.line-throw {
+  text-decoration: line-through;
+  color: rgba(255, 255, 255, 0.6);
+}
+.Slider {
+  margin: 0 !important;
+}
+.remove-from-subscribtions-btn {
+  float: right;
+  margin: 0 !important;
+  color: red;
+  border-color: red;
 }

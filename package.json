@@ -19,6 +19,7 @@
     "@vkontakte/icons": "^1.2.1",
     "@vkontakte/vkui": "^2.13.0",
     "@vkontakte/vkui-connect": "^1.1.2",
+    "axios": "^0.18.0",
     "core-js": "^2.5.7",
     "prop-types": "^15.6.2",
     "react": "^16.5.0",
