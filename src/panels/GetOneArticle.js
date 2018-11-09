@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Panel, PanelHeader, HeaderButton, platform, IOS, Group, Div, Header, Gallery, Spinner} from '@vkontakte/vkui';
+import {Panel, PanelHeader, HeaderButton, platform, IOS, Group, Div, Header, Gallery, Button} from '@vkontakte/vkui';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 const osname = platform();
@@ -17,10 +17,15 @@ class GetOneArticle extends React.Component {
                   {osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
                 </HeaderButton>}
               >
-                Статья {this.props.articleTitle}
+                Получить "{this.props.article.title}"
               </PanelHeader>
               <Group>
-                1
+                <Div className="text-center">
+                  Вы можете приобрести исключительный доступ к статье "{this.props.article.title}" всего за
+                </Div>
+                <Div>
+                  <Button className="pay-subscribtion">{this.props.article.price}р.</Button>
+                </Div>
               </Group>
               <Group>
                 2

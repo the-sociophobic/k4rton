@@ -15,10 +15,10 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			activePanel: 'article',
+			activePanel: 'home',
 			fetchedUser: null,
 			currentArticle: null,
-			paywalledArticleData: {}
+			currentArticleData: {}
 		};
 	}
 
@@ -35,7 +35,6 @@ class App extends React.Component {
 			}
 		}
 		connect.subscribe((e) => {
-			console.log(e)
 			switch (e.detail.type) {
 				case 'VKWebAppGetUserInfoResult':
 					this.setState({ fetchedUser: e.detail.data });
@@ -60,9 +59,9 @@ class App extends React.Component {
 				<Home id="home" fetchedUser={this.state.fetchedUser} go={this.go} />
 				<Article id="article" go={this.go} open={this.open}
 					article={this.state.currentArticle} user={this.state.fetchedUser}
-					setPayWallData={(data) => this.setState({paywalledArticleData: data})}/>
-				<SubscribePage id="subscribe" go={this.go} open={this.open} articleData={this.state.paywalledArticleData} />
-				<GetOneArticle id="get-one-article" go={this.go} open={this.open} articleData={this.state.paywalledArticleData} />
+					setPayWallData={(data) => this.setState({currentArticleData: data})}/>
+				<SubscribePage id="subscribe" go={this.go} open={this.open} articleData={this.state.currentArticleData} />
+				<GetOneArticle id="get-one-article" go={this.go} open={this.open} article={this.state.currentArticleData} />
 			</View>
 		);
 	}
