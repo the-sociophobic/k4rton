@@ -81,7 +81,7 @@ class SubscribePage extends React.Component {
     }
     return  (<Panel id={this.props.id}>
               <PanelHeader
-                left={<HeaderButton onClick={this.props.go} data-to="home">
+                left={<HeaderButton onClick={this.props.goBack}>
                   {osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
                 </HeaderButton>}
                 noShadow={false}

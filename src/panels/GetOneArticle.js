@@ -13,7 +13,7 @@ class GetOneArticle extends React.Component {
   render() {
     return  (<Panel id={this.props.id}>
               <PanelHeader
-                left={<HeaderButton onClick={this.props.go} data-to="home">
+                left={<HeaderButton onClick={this.props.goBack}>
                   {osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
                 </HeaderButton>}
               >
@@ -21,14 +21,18 @@ class GetOneArticle extends React.Component {
               </PanelHeader>
               <Group>
                 <Div className="text-center">
-                  Вы можете приобрести исключительный доступ к статье "{this.props.article.title}" всего за
+                  Вы можете приобрести исключительный доступ к статье "{this.props.article.title}" за
                 </Div>
                 <Div>
                   <Button className="pay-subscribtion">{this.props.article.price}р.</Button>
                 </Div>
               </Group>
               <Group>
-                2
+                <Div>
+                  Так же вы можете получить доступ, репостнув эту статью себе на стену<br />
+                  (Только для публичных аккаунтов)
+                  <Button level="outline" className="pay-subscribtion">Сделать репост</Button>
+                </Div>
               </Group>
             </Panel>)
   }

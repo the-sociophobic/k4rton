@@ -23,6 +23,8 @@ class Article extends React.Component {
         this.props.setPayWallData({
           tags: res.data.tags,
           publisher: res.data.publisher,
+          title: res.data.title,
+          price: res.data.price,
         })
       }).catch((e) => {
         this.setState({article: {
@@ -63,9 +65,7 @@ class Article extends React.Component {
               })}
               {this.state.article.payWall && <PayWall
                 part={this.state.article.payWall}
-                goToGetArticlePage={() => {
-
-                }}
+                goToGetArticlePage={() => this.props.open('get-one-article')}
                 goToSubscribePage={() => this.props.open('subscribe')}
               />}
             </React.Fragment>
@@ -74,7 +74,7 @@ class Article extends React.Component {
 
     return  (<Panel id={this.props.id}>
               <PanelHeader
-                left={<HeaderButton onClick={this.props.go} data-to="home">
+                left={<HeaderButton onClick={this.props.goBack}>
                   {osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
                 </HeaderButton>}
               >
