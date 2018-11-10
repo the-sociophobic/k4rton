@@ -20,6 +20,7 @@ class Article extends React.Component {
   componentWillReceiveProps (props) {
     if (props.article !== null && (this.state.article === null || this.state.article.title !== props.article.title)) {
       axios.get('https://agentstvo-adv.ru:3000/api/getNews').then(res => {
+        // console.log(res)
         const data = res.data.result
         this.setState({article: data})
         const newGlobalState = {

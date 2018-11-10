@@ -89,8 +89,11 @@
   color: red;
   border-color: red;
 }
-.text-center {
+.text-center, .text-center * {
   text-align: center;
+}
+.display-block-header, .display-block-header > .Header__in {
+  display: block
 }
 
 .subscribe-channel-pic {
@@ -99,4 +102,36 @@
   margin: 10px auto;
   display: block;
   border-radius: 50%;
+}
+.publisher-profit {
+  color: #79a743;
+  font-size: 1.8em
+}
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+  min-height: 300px
+}
+.article-editor-tag {
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+.article-editor-tag span {
+  border: 1px solid red;
+  color: red;
+  border-radius: 50%;
+  height: 12px;
+  width: 12px;
+  display: inline-block;
+  text-align: center;
+  padding: 2px;
+  margin: 2px;
+  margin-right: 10px;
+  line-height: 0.7;
+}
+.PopoutWrapper__container {
+  position: absolute;
+  top: 0;
+}
+.article-editor-tag-input {
+  width: 100%;
+  padding: 20px
 }

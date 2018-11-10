@@ -2,7 +2,7 @@
   "title": "About lorem ipsum",
   "tags": ["политика"],
   "publisher": "Бумага",
-  "article": [{
+  "paragraphs": [{
     "type": "header",
     "text": "About lorem ipsum",
     "size": 1

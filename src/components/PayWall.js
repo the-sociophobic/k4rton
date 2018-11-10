@@ -15,8 +15,8 @@ class PayWall extends React.Component {
                <img className="lock-icon" src={lock}/>
                <Div className="payWall-title">Вы видете только {this.props.part ? (this.props.part + '%') : 'часть'} статьи,<br />чтобы  прочитать её полностью вы можете:</Div>
                <Div className="double-buttons">
-                 <Button level="outline" onClick={this.props.goToGetArticlePage}>Получить доступ к этой статье</Button>
-                 <Button onClick={this.props.goToSubscribePage}>Оформить гибкую подписку</Button>
+                 <Button level="outline" onClick={() => this.props.goToGetArticlePage()}>Получить доступ к этой статье</Button>
+                 <Button onClick={() => this.props.goToSubscribePage()}>Оформить гибкую подписку</Button>
                </Div>
              </Div>
   }

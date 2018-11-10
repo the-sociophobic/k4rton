@@ -11,8 +11,10 @@ import Article from './panels/Article';
 import SubscribePage from './panels/SubscribePage';
 import GetOneArticle from './panels/GetOneArticle';
 import ChannelPreview from './panels/ChannelPreview';
+import PublisherAccount from './panels/PublisherAccount';
 import navigator from './utils/navigator'
 import AppState from './components/AppState'
+import ArticleEditor from './panels/ArticleEditor';
 import { getUrlData } from './utils/utils';
 
 class App extends React.Component {
@@ -28,10 +30,11 @@ class App extends React.Component {
 	componentDidMount() {
 		navigator.subscribe((path) => this.setState({ activePanel: path.slice(-1)[0] }))
     navigator.init({
-    	initOpenAllowed: ['home', 'feed', 'article', 'subscribe'],
+    	initOpenAllowed: ['home', 'feed', 'article', 'subscribe', 'publisher-account', 'article-editor'],
     	onInitRedirect: {
     		'get-one-article': 'article',
-    		'channel-preview': 'subscribe'
+    		'channel-preview': 'subscribe',
+    		'preview-feed': 'home'
     	}
     })
     let UrlData = getUrlData();
@@ -40,7 +43,7 @@ class App extends React.Component {
       this.setState({currentArticle: UrlData.article});
     }
 		connect.subscribe((e) => {
-			alert(JSON.stringify(e))
+			// alert(JSON.stringify(e))
 			switch (e.detail.type) {
 				case 'VKWebAppGetUserInfoResult':
 					this.setState({ fetchedUser: e.detail.data });
@@ -69,6 +72,8 @@ class App extends React.Component {
 					<SubscribePage id="subscribe" open={navigator.go} articleData={this.state.currentArticleData} goBack={navigator.back} />
 					<GetOneArticle id="get-one-article" open={navigator.go} article={this.state.currentArticleData} goBack={navigator.back}/>
 					<ChannelPreview id="channel-preview" open={navigator.go} goBack={navigator.back} />
+					<PublisherAccount id="publisher-account" open={navigator.go} goBack={navigator.back} />
+					<ArticleEditor id="article-editor" open={navigator.go} goBack={navigator.back} />
 				</View>
 			</AppState.Provider>
 		);
