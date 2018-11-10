@@ -38,169 +38,9 @@ class SubscribePage extends React.Component {
         subscribers: 10,
         publishers: ['Бумага', 'Лентач'],
         price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 12,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 8,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }, {
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 7,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
       }],
       publishers: [{
         label: 'Бумага',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Бумага, рвётся, горит, делается из трёх тростников',
-        subscribers: 11,
-        price: 123
-      }, {
-        label: 'Лентач',
         pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
         description: 'Бумага, рвётся, горит, делается из трёх тростников',
         subscribers: 11,
@@ -225,6 +65,19 @@ class SubscribePage extends React.Component {
   }
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll)
+    axios.get(`${window.getGlobalState().apiUrl}/tagsAndPublishers`).then(res => {
+      this.setState({
+        tags: res.data.result.tags.map(tag => {
+          tag.price = Math.round(Math.random() * 20 * 100) / 100 + 2
+          return tag
+        }),
+        publishers: res.data.result.publishers.map(publisher => {
+          publisher.price = Math.round(Math.random() * 20 * 100) / 100 + 2
+          return publisher
+        })
+      })
+    }).catch(console.log)
+    axios.get()
   }
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll)
@@ -288,17 +141,17 @@ class SubscribePage extends React.Component {
                     >
                       Гибкая подписка
                     </PanelHeader>
-                    {(this.state.fixedOverlay || this.state.filter !== '') && <FixedLayout>
+                    <FixedLayout style={(this.state.fixedOverlay || this.state.filter !== '') ? {opacity: 1, transition: '.3s all', pointerEvents: 'all'} : {opacity: 0, transition: '.3s all', pointerEvents: 'none'}}>
                       <Search placeholder={"Поиск по " + ( this.state.tab === 'tags' ? 'смарт-тегам' : 'авторским каналам' )} theme="default" onChange={value => this.setState({filter: value})} value={this.state.filter} />
                       {this.renderTabs()}
-                    </FixedLayout>}
+                    </FixedLayout>
                     <FormLayout>
                       {/*<FormLayoutGroup top="Ваш промокод" bottom="Промокод позволит Вам получить скидку или период бесплатный подписки">
                         <Input value={this.state.period} onChange={value=>{this.setState({ code: value })}} />
                       </FormLayoutGroup>*/}
                       <Group top={"Интервал подписки: " + availiblePeriods[state.periodType - 1]} bottom={''/*'Подписка оформляется на выбранный период'*/}>
                         <List>
-                          <Cell>
+                          <Div>
                             <Slider
                               step={1}
                               min={0}
@@ -309,21 +162,23 @@ class SubscribePage extends React.Component {
                                 return oldState
                               })}
                             />
-                          </Cell>
+                          </Div>
                         </List>
                       </Group>
                       {(state.selected.publishers.length + state.selected.tags.length > 0) &&
                       <React.Fragment>
-                        <Button level="outline"  onClick={() => {
-                          window.setGlobalState(oldState => {
-                            oldState.previewFeedMode = {
-                              publishers: oldState.subscribingProcess.selected.publishers,
-                              tags: oldState.subscribingProcess.selected.tags,
-                            }
-                            return oldState
-                          })
-                          this.props.open('feed')
-                        }}>Посмотреть превью вашей новостной ленты</Button>
+                        <Div>
+                          <Button level="outline" className="pay-subscribtion" onClick={() => {
+                            window.setGlobalState(oldState => {
+                              oldState.previewFeedMode = {
+                                publishers: oldState.subscribingProcess.selected.publishers,
+                                tags: oldState.subscribingProcess.selected.tags,
+                              }
+                              return oldState
+                            })
+                            this.props.open('feed')
+                          }}>Посмотреть превью вашей новостной ленты</Button>
+                        </Div>
                         <Group><List>{state.selected.publishers.concat(state.selected.tags).map((label) => {
                           const item = this.state.publishers.concat(this.state.tags).find(a => a.label == label)
                           if (!item)

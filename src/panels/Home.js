@@ -9,23 +9,13 @@ const osname = platform();
 class Home extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-    	auth: false
-    }
   }
-  // componentWillReceiveProps() {
-  // }
   render() {
-  	if (!this.state.auth && window.getGlobalState().auth !== undefined)
-	  	axios.post(window.getGlobalState().apiUrl + '/autorizeUser', {
-  			userProfile: window.getGlobalState().auth
-	  	}).then((res) => {
-	  		if (res.data.success && (res.data.result.subscriptions.tags.length + res.data.result.subscriptions.publishers.length > 0)) {
-	  			this.props.open('feed')
-	  		} else {
-	  			this.props.open('subscribe')
-	  		}
-	  	}).catch(console.log)
+  	if (!window.getGlobalState().currentSubscribtion) {
+			setTimeout(() => this.props.open('subscribe'))
+  	} else {
+			setTimeout(() => this.props.open('feed'))
+  	}
     return  (<Panel id={this.props.id}>
               <Div>
                 <Spinner />

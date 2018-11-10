@@ -23,11 +23,18 @@ class NewsChannelDescription extends React.Component {
                 const isSelected = globalState.subscribingProcess.selected.tags.concat(globalState.subscribingProcess.selected.publishers).includes(globalState.preview.label)
                 return  <React.Fragment>
                           <Div><img className="subscribe-channel-pic" src={globalState.preview.pic} /></Div>
-                          <Div>{globalState.preview.type === 'tag' ? 'Смарт-тег' : 'Авторские рассылки издателя'} {globalState.preview.label}</Div>
+                          <Div>{globalState.preview.type === 'tags' ? 'Смарт-тег' : 'Авторские рассылки издателя'} {globalState.preview.label}</Div>
                           <Div>{globalState.preview.description}</Div>
                           <Div>{globalState.preview.price}р. за неделю подписки</Div>
                           <Div className="double-buttons">
-                            <Button level="outline">Превью постов</Button>
+                            <Button level="outline" onClick={() => {
+                              window.setGlobalState(oldState => {
+                                oldState.previewFeedMode = {tags: [], publishers: []}
+                                oldState.previewFeedMode[globalState.preview.type] = [globalState.preview.label]
+                                return oldState
+                              })
+                              this.props.open('feed')
+                            }}>Превью постов</Button>
                             <Button onClick={() => {
                               this.props.goBack()
                               window.setGlobalState(oldState => {

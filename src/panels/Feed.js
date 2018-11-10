@@ -7,6 +7,7 @@ import Icon28Settings from '@vkontakte/icons/dist/28/settings';
 import axios from 'axios'
 import ReactMarkdown from 'react-markdown'
 import { tagColor, changeDataInUrl } from './../utils/utils'
+import IconAccount from '@vkontakte/icons/dist/28/user';
 
 const osname = platform();
 
@@ -18,11 +19,21 @@ class Feed extends React.Component {
       value: "",
       selectedTags: [],
       popularTags: [],
+      isUserPublisher: false
     }
   }
 
 
-  componentWillReceiveProps (props) {
+
+  componentDidMount () {
+    axios.get(`${window.getGlobalState().apiUrl}/tagsAndPublishers`)
+      .then(res => {
+        const allPublishers = res.data.result.publishers
+        this.setState({
+          isUserPublisher: allPublishers.filter((channel) => channel.userProfile.id == window.getGlobalState().auth.id).length > 0,
+        })
+        // console.log(allPublishers)
+      }).catch(console.log)
     const globalState = window.getGlobalState()
     let url = ''
     if (globalState.previewFeedMode && (globalState.previewFeedMode.tags.length + globalState.previewFeedMode.publishers.length > 0))
@@ -160,9 +171,9 @@ class Feed extends React.Component {
             } else {
              this.props.open('subscribe')
             }
-         }}>{window.getGlobalState().previewFeedMode !== false ? (osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>) : <Icon28Settings />}</HeaderButton>}
+         }}>{window.getGlobalState().previewFeedMode ? (osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>) : <Icon28Settings />}</HeaderButton>}
           noShadow={true}
-        >{window.getGlobalState().previewFeedMode !== false ? 'Новости' : 'Превью новостей'}</PanelHeader>
+        >{!window.getGlobalState().previewFeedMode ? (<>{this.state.isUserPublisher && <IconAccount className="account-icon" onClick={() => this.props.open('publisher-account')} />} Новости</>) : 'Превью новостей'}</PanelHeader>
         <Search theme="default" placeholder="Поиск по постам" onChange={value => this.setState({value: value})} />
         <Div>
           <small>Популярные теги:</small>
