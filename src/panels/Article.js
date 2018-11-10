@@ -68,10 +68,11 @@ class Article extends React.Component {
                   case 'gallery':
                     return <Gallery
                         className={className}
-                        slideWidth="500px"
-                        style={{ height: 500, width: 600 }}
+                        slideWidth="100%"
+                        // style={{ height: 500, width: 600 }}
+                        style={{display: "table"}}
                         bullets="dark"
-                      >{node.pics.map(pic => <img src={pic}/>)}</Gallery>
+                      >{node.pics.map(pic => <img src={pic} style={{width: "100%", height: "auto"}} /> )}</Gallery>
                     break
                   default:
                     return <Div className={className}>Error, unkonw node type: {node.type}</Div>

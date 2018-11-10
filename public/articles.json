@@ -2,7 +2,7 @@
   {
     "id": "0",
     "title": "About lorem ipsum",
-    "tags": ["политика", "k4rton"],
+    "tags": ["политика", "k4rton", "bionicle", "феминизм", "чидори", "мем", "эпидермис"],
     "publisher": "Бумага",
     "article": [{
       "type": "header",
@@ -28,7 +28,7 @@
   {
     "id": "1",
     "title": "About lorem ipsum 1",
-    "tags": ["бумага", "политикаы"],
+    "tags": ["бумага", "политика", "тургенев", "тетраграмматон", "психопатия", "дискурс", "апельсин"],
     "publisher": "Бумага",
     "article": [{
       "type": "header",
