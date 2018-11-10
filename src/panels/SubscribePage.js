@@ -320,6 +320,7 @@ class SubscribePage extends React.Component {
                               publishers: oldState.subscribingProcess.selected.publishers,
                               tags: oldState.subscribingProcess.selected.tags,
                             }
+                            return oldState
                           })
                           this.props.open('feed')
                         }}>Посмотреть превью вашей новостной ленты</Button>

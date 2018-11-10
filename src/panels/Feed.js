@@ -153,9 +153,16 @@ class Feed extends React.Component {
     return (
       <Panel id="feed">
         <PanelHeader
-          left={<HeaderButton onClick={() => window.getGlobalState().previewFeedMode ? this.props.goBack() : this.props.open('subscribe')}>{window.getGlobalState().previewFeedMode ? (osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>) : <Icon28Settings />}</HeaderButton>}
+          left={<HeaderButton onClick={() => {
+            if (window.getGlobalState().previewFeedMode) {
+              window.setGlobalState({previewFeedMode: false})
+              this.props.goBack()
+            } else {
+             this.props.open('subscribe')
+            }
+         }}>{window.getGlobalState().previewFeedMode !== false ? (osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>) : <Icon28Settings />}</HeaderButton>}
           noShadow={true}
-        >Новости</PanelHeader>
+        >{window.getGlobalState().previewFeedMode !== false ? 'Новости' : 'Превью новостей'}</PanelHeader>
         <Search theme="default" placeholder="Поиск по постам" onChange={value => this.setState({value: value})} />
         <Div>
           <small>Популярные теги:</small>
