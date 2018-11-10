@@ -5,6 +5,7 @@ import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import AppState from '../components/AppState'
 import {Doughnut} from 'react-chartjs-2'
+import axios from 'axios'
 const osname = platform();
 
 class PublisherAccount extends React.Component {
@@ -26,8 +27,20 @@ class PublisherAccount extends React.Component {
       }, {
         label: 'Очень важный тег',
         value: 10
-      }]
+      }],
+      channels: []
     }
+  }
+  componentDidMount() {
+    axios.get(`${window.getGlobalState().apiUrl}/tagsAndPublishers`)
+      .then(res => {
+        console.log(res.data.result)
+        const allPublishers = res.data.result.publishers
+        this.setState({
+          channels: allPublishers.filter((channel) => channel.userProfile.id == window.getGlobalState().auth.id).map((channel) => channel.label),
+        })
+        // console.log(allPublishers)
+      }).catch(console.log)
   }
   render() {
     const tags = (() => {
@@ -46,8 +59,8 @@ class PublisherAccount extends React.Component {
               <Group>
                 <List>
                   <Cell className="text-center">
-                    <Header className="display-block-header">{this.state.name}</Header>
-                    <small>Авторский канал</small>
+                    <Header className="display-block-header">{this.state.channels.map(channel => <p>{channel}</p>)}</Header>
+                    <small>{this.state.channels.length === 1 ? 'Авторский канал' : 'Авторские каналы'}</small>
                   </Cell>
                 </List>
               </Group>
@@ -63,16 +76,23 @@ class PublisherAccount extends React.Component {
               <Div className="text-center">Самые прибыльные теги</Div>
               <Group>
                 <List>
-                  <Cell className="text-center">
+                  <Div className="text-center">
                     Баланс: <span className="publisher-profit">{this.state.profit}р.</span>
                     <br />
                     <br />
                     <small>Запросить вывод</small>
-                  </Cell>
+                  </Div>
                 </List>
               </Group>
               <Div className="double-buttons">
-                <Button level="outline">История всех постов</Button>
+                <Button level="outline" onClick={() => {
+                  window.setGlobalState(oldState => {
+                    oldState.previewFeedMode = {tags: [], publishers: []}
+                    oldState.previewFeedMode.publishers = [this.state.name]
+                    return oldState
+                  })
+                  this.props.open('feed')
+                }}>История всех постов</Button>
                 <Button onClick={() => this.props.open('article-editor')}>Создать новый пост</Button>
               </Div>
               {/*<PieChart

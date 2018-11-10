@@ -13,6 +13,7 @@ import myDate from './../utils/myDate';
 
 import publisherIcon from './../img/publisher_icon.png';
 import hashtagIcon from './../img/hashtag_icon.png';
+import IconAccount from '@vkontakte/icons/dist/28/user';
 
 const osname = platform();
 
@@ -24,11 +25,21 @@ class Feed extends React.Component {
       searchQuery: "",
       selectedTags: [],
       popularTags: [],
+      isUserPublisher: false
     }
   }
 
 
-  componentWillReceiveProps (props) {
+
+  componentDidMount () {
+    axios.get(`${window.getGlobalState().apiUrl}/tagsAndPublishers`)
+      .then(res => {
+        const allPublishers = res.data.result.publishers
+        this.setState({
+          isUserPublisher: allPublishers.filter((channel) => channel.userProfile.id == window.getGlobalState().auth.id).length > 0,
+        })
+        // console.log(allPublishers)
+      }).catch(console.log)
     const globalState = window.getGlobalState()
     let url = ''
     if (globalState.previewFeedMode && (globalState.previewFeedMode.tags.length + globalState.previewFeedMode.publishers.length > 0))
@@ -138,10 +149,17 @@ class Feed extends React.Component {
     return (
       <Panel id="feed">
         <PanelHeader
-          left={<HeaderButton onClick={() => window.getGlobalState().previewFeedMode ? this.props.goBack() : this.props.open('subscribe')}>{window.getGlobalState().previewFeedMode ? (osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>) : <div className="settings-icon-container"><Icon28Settings /></div>}</HeaderButton>}
+          left={<HeaderButton onClick={() => {
+            if (window.getGlobalState().previewFeedMode) {
+              window.setGlobalState({previewFeedMode: false})
+              this.props.goBack()
+            } else {
+             this.props.open('subscribe')
+            }
+         }}>{window.getGlobalState().previewFeedMode ? (osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>) : <div className="settings-icon-container"><Icon28Settings /></div>}</HeaderButton>}
           noShadow={true}
-        >Новости</PanelHeader>
-        <Search theme="default" placeholder="Поиск по постам" onChange={searchQuery => this.setState({searchQuery: searchQuery})} />
+        >{!window.getGlobalState().previewFeedMode ? (<>{this.state.isUserPublisher && <IconAccount className="account-icon" onClick={() => this.props.open('publisher-account')} />} Новости</>) : 'Превью новостей'}</PanelHeader>
+        <Search theme="default" placeholder="Поиск по постам" onChange={value => this.setState({value: value})} />
         <Div>
           <small>Популярные теги:</small>
         </Div>

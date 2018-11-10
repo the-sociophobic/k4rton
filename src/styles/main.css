@@ -114,7 +114,7 @@
   margin-right: 5px;
   margin-bottom: 10px;
 }
-.article-editor-tag span {
+/*.article-editor-tag span {
   border: 1px solid red;
   color: red;
   border-radius: 50%;
@@ -126,7 +126,7 @@
   margin: 2px;
   margin-right: 10px;
   line-height: 0.7;
-}
+}*/
 .PopoutWrapper__container {
   position: absolute;
   top: 0;
@@ -196,4 +196,11 @@
 .article-image-container img.landscape {
   width: auto;
   height: 100%;
+}
+
+
+.account-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 15px;
 }

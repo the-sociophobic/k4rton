@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Panel, PanelHeader, HeaderButton, Button, platform, IOS, Group, Div, Input, Header, Gallery, Spinner, PopoutWrapper} from '@vkontakte/vkui';
+import {Panel, PanelHeader, HeaderButton, Button, platform, IOS, Group, Div, Input, Header, Gallery, Spinner, PopoutWrapper, Select } from '@vkontakte/vkui';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import axios from 'axios'
@@ -24,13 +24,42 @@ class ArticleEditor extends React.Component {
       editor: '',
       tags: [],
       newTag : '',
-      newTagModalVisible: false
+      newTagModalVisible: false,
+      availibleChannels: [],
+      selectedPublishers: '',
+      title: ''
     }
   }
-  save() {
+  componentDidMount() {
+    axios.get(`${window.getGlobalState().apiUrl}/tagsAndPublishers`)
+      .then(res => {
+        console.log(res.data.result)
+        const allPublishers = res.data.result.publishers
+        this.setState({
+          availibleChannels: allPublishers.filter((channel) => channel.userProfile.id == window.getGlobalState().auth.id).map((channel) => channel.label),
+        })
+        // console.log(allPublishers)
+      }).catch(console.log)
+  }
+  publish() {
     const rawContentState = convertToRaw(this.state.editor.getCurrentContent());
     const markup = draftToMarkdown(rawContentState);
-    console.log(markup)
+    const payload = {
+      article: {
+        title: this.state.title,
+        tags: this.state.tags,
+        paragraphs: markup,
+        publisher: this.state.selectedPublishers
+      },
+      publisherId: window.getGlobalState().auth.id
+    }
+    console.log(payload)
+    axios.post(`${window.getGlobalState().apiUrl}/article`, payload)
+      .then(res => {
+        this.props.goBack()
+      }).catch(e => {
+        console.log(e)
+      })
   }
   render() {
     return  (<Panel id={this.props.id}>
@@ -39,6 +68,13 @@ class ArticleEditor extends React.Component {
                   {osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
                 </HeaderButton>}
               >Создать стаью</PanelHeader>
+              <Select placeholder="Выберите канал публицаии" value={this.state.selectedPublishers} onChange={e => this.setState({selectedPublishers: e.target.value})}>
+                {this.state.availibleChannels.map(option => <option value={option}>{option}
+              </option>)}
+              </Select>
+              <Group>
+                <Input value={this.state.title} placeholder="Заголовок статьи" onChange={e => this.setState({title: e.target.value})}/>
+              </Group>
               <Group className='quill-wrapper'>
                 <Editor
                   editorState={this.state.editor}
@@ -51,7 +87,7 @@ class ArticleEditor extends React.Component {
               </Group>
               <Group>
                 <Div><small>Теги к статье</small></Div>
-                <Div
+                {/* <Div
                   style={{
                     padding: "0 12px 12px"
                   }}
@@ -82,11 +118,18 @@ class ArticleEditor extends React.Component {
                       </Button>
                     )
                   }
-                </Div>
-              </Group>
+                </Div> */}
+
+                <Div>{this.state.tags.map((tag) => <Button className="article-editor-tag" level="outline" onClick={() => this.setState(oldState => {
+                      oldState.tags.splice(oldState.tags.indexOf(tag), 1)
+                      return oldState
+                    })}>
+                    {tag}
+                  </Button>)}
+                  <Button level="outline" onClick={() => this.setState({newTagModalVisible: true})}>+</Button>
+                </Div></Group>
               <Div className="double-buttons">
-                <Button level="outline">Сохранить черновик</Button>
-                <Button onClick={() => this.save()}>Опубликовать</Button>
+                <Button onClick={() => this.publish()}>Опубликовать</Button>
               </Div>
               {this.state.newTagModalVisible && <PopoutWrapper v="center" h="center" onClick={() => this.setState({newTagModalVisible: false})}>
                 <Group className="article-editor-tag-input" onClick={e => e.stopPropagation()}>

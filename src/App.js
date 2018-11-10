@@ -1,6 +1,6 @@
 import React from 'react';
 import connect from '@vkontakte/vkui-connect';
-import { View } from '@vkontakte/vkui';
+import { View, Spinner, Div } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
 import './styles/main.css';
@@ -16,6 +16,7 @@ import navigator from './utils/navigator'
 import AppState from './components/AppState'
 import ArticleEditor from './panels/ArticleEditor';
 import { getUrlData } from './utils/utils';
+import axios from 'axios'
 
 class App extends React.Component {
 	constructor(props) {
@@ -23,9 +24,29 @@ class App extends React.Component {
 		this.state = {
 			activePanel: getUrlData().page || 'home',
 			fetchedUser: null,
+			auth: false
 		};
+		navigator.subscribe((path) => this.setState({ activePanel: path.slice(-1)[0] }))
   }
-
+  auth(userProfile) {
+  	if (this.state.auto)
+  		return
+		axios.post(window.getGlobalState().apiUrl + '/autorizeUser', {userProfile}).then((res) => {
+  		this.setState({auth: true})
+  		if (res.data.success && (res.data.result.subscriptions.tags.length + res.data.result.subscriptions.publishers.length > 0)) {
+  			window.setGlobalState({
+  				currentSubscribtion: res.data.result.subscriptions
+  			})
+  		} else {
+  			window.setGlobalState({
+  				currentSubscribtion: {
+  					tags: [],
+  					publishers: []
+  				}
+  			})
+  		}
+  	}).catch(console.log)
+  }
 	componentDidMount() {
 		navigator.subscribe((path) => this.setState({ activePanel: path.slice(-1)[0] }))
     navigator.init({
@@ -36,13 +57,22 @@ class App extends React.Component {
     		'preview-feed': 'home'
     	}
     })
+    // --------- hadrcode --------
     window.setGlobalState({
     	auth: {
 				id: 2314852,
 				signed_user_id: '11',
     	}
 		})
-		connect.subscribe((e) => {
+		this.auth({
+			id: 2314852,
+			signed_user_id: '11',
+  	})
+    // --------- /hadrcode --------
+    
+    // --------- not hadrcode --------
+		
+		/*connect.subscribe((e) => {
 			
 			// alert(JSON.stringify(e))
 			switch (e.detail.type) {
@@ -54,25 +84,30 @@ class App extends React.Component {
 							signed_user_id: e.detail.data.signed_user_id,
 						}
 					})
+					this.auth({
+						user_id: e.detail.data.id,
+						signed_user_id: e.detail.data.signed_user_id,
+					})
 					break;
 				default:
 					// console.log(e.detail.type);
 			}
-		});
-		connect.send('VKWebAppGetUserInfo', {});
-	}
 
-	open = (panel) => {
-		navigator.go(panel)
-		// this.setState({ activePanel: panel })
-	};
+		});*/
+
+    // --------- /not hadrcode --------
+		
+		connect.send('VKWebAppGetUserInfo', {});
+
+	}
 
 	render() {
 		return (
 			<AppState.Provider>
+				{!this.state.auth ? <Div><Spinner /></Div> :
 				<View activePanel={this.state.activePanel}>
 					<Home id="home" fetchedUser={this.state.fetchedUser} open={navigator.go} goBack={navigator.back}/>
-					<Feed id="feed" fetchedUser={this.state.fetchedUser} open={this.open}  goBack={navigator.back} />
+					<Feed id="feed" fetchedUser={this.state.fetchedUser} open={navigator.go}  goBack={navigator.back} />
 					<Article id="article" open={navigator.go}
 						user={this.state.fetchedUser}
 						goBack={navigator.back}/>
@@ -81,7 +116,7 @@ class App extends React.Component {
 					<ChannelPreview id="channel-preview" open={navigator.go} goBack={navigator.back} />
 					<PublisherAccount id="publisher-account" open={navigator.go} goBack={navigator.back} />
 					<ArticleEditor id="article-editor" open={navigator.go} goBack={navigator.back} />
-				</View>
+				</View>}
 			</AppState.Provider>
 		);
 	}
