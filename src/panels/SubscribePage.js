@@ -298,7 +298,7 @@ class SubscribePage extends React.Component {
                       </FormLayoutGroup>*/}
                       <Group top={"Интервал подписки: " + availiblePeriods[state.periodType - 1]} bottom={''/*'Подписка оформляется на выбранный период'*/}>
                         <List>
-                          <Cell>
+                          <Div>
                             <Slider
                               step={1}
                               min={0}
@@ -309,7 +309,7 @@ class SubscribePage extends React.Component {
                                 return oldState
                               })}
                             />
-                          </Cell>
+                          </Div>
                         </List>
                       </Group>
                       {(state.selected.publishers.length + state.selected.tags.length > 0) &&

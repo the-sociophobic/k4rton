@@ -1,0 +1,20 @@
+
+<svg width="320px" height="386px" viewBox="0 0 320 386" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Mobile-Portrait">
+            <rect id="Rectangle-3" fill="#EDEEF0" x="-34" y="0" width="386" height="386"></rect>
+            <rect id="Rectangle-2" fill="#5376A4" x="0" y="0" width="320" height="53"></rect>
+            <g id="Group" transform="translate(23.000000, 70.000000)">
+                <rect id="Rectangle-4" stroke="#FAFAFA" fill="#FFFFFF" x="0.5" y="0.5" width="274" height="230" rx="3"></rect>
+                <rect id="Rectangle" fill="#EDEEF0" x="73" y="28" width="147" height="14" rx="7"></rect>
+                <circle id="Oval-Copy-3" fill="#EDEEF0" cx="35" cy="35" r="20"></circle>
+                <rect id="Rectangle-5" fill="#B7B7B7" x="0" y="68" width="275" height="140"></rect>
+                <rect id="Rectangle" fill="#EDEEF0" x="15" y="138" width="205" height="22" rx="11"></rect>
+                <rect id="Rectangle" fill="#EDEEF0" x="15" y="175" width="157" height="14" rx="7"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

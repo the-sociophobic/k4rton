@@ -141,3 +141,59 @@
 .FixedLayout {
   width: 100%
 }
+
+
+
+
+
+
+.article-publisher {
+  display: table;
+  margin: 0 0 10px;
+}
+.article-publisher .publisher-avatar {
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  border-radius: 50px;
+  float: left;
+}
+.article-publisher .publisher-avatar img {
+  width: 100%;
+}
+.article-publisher .publisher-info {
+  /* width: calc(100% - 50px); */
+  padding: 7px 15px;
+  float: left;
+}
+.article-publisher .publisher-info .publisher-name {
+  font-size: 18px;
+  margin: 0 0 5px;
+}
+.article-publisher .publisher-info .publishing-time {
+  font-size: 12px;
+  font-weight: 400;
+  color: grey;
+}
+
+.settings-icon-container {
+  margin-left: -5px;
+}
+
+.article-image-container {
+  overflow: hidden;
+}
+.article-image-container img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.article-image-container img.portrait {
+  width: 100%;
+  height: auto;
+}
+.article-image-container img.landscape {
+  width: auto;
+  height: 100%;
+}

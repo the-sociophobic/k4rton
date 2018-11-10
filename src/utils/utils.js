@@ -18,6 +18,10 @@ export const clamp = (a, min, max) => {
   return Math.min(max, Math.max(a, min));
 }
 
+export const capitalize = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 export const tagColor0 = (tag) => {
   const k = 23;
   let string = "";

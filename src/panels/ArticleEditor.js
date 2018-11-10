@@ -11,6 +11,8 @@ import { Editor } from 'react-draft-wysiwyg';
 import { convertToRaw } from 'draft-js'
 import draftToMarkdown from 'draftjs-to-markdown';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { tagColor } from './../utils/utils'
+
 const osname = platform();
 
 class ArticleEditor extends React.Component {
@@ -49,15 +51,39 @@ class ArticleEditor extends React.Component {
               </Group>
               <Group>
                 <Div><small>Теги к статье</small></Div>
-                <Div>{this.state.tags.map((tag) => <Button className="article-editor-tag" level="outline" onClick={() => this.setState(oldState => {
-                      oldState.tags.splice(oldState.tags.indexOf(tag), 1)
-                      return oldState
-                    })}>
-                    {/*<span >x</span>*/}
-                    {tag}
-                  </Button>)}
-                  <Button level="outline" onClick={() => this.setState({newTagModalVisible: true})}>+</Button>
-                </Div></Group>
+                <Div
+                  style={{
+                    padding: "0 12px 12px"
+                  }}
+                >
+                  <Button
+                    onClick={() => this.setState({newTagModalVisible: true})}
+                    style={{
+                      margin: "0 5px",
+                    }}
+                  >
+                    новый тег
+                  </Button>
+                  {
+                    this.state.tags.map((tag) =>
+                      <Button
+                        className="article-editor-tag"
+                        // level="outline"
+                        style={{
+                          background: tagColor(tag),
+                          margin: "0 5px",
+                        }}
+                        onClick={() => this.setState(oldState => {
+                          oldState.tags.splice(oldState.tags.indexOf(tag), 1)
+                          return oldState
+                        })}
+                      >
+                        #{tag}
+                      </Button>
+                    )
+                  }
+                </Div>
+              </Group>
               <Div className="double-buttons">
                 <Button level="outline">Сохранить черновик</Button>
                 <Button onClick={() => this.save()}>Опубликовать</Button>
@@ -67,11 +93,13 @@ class ArticleEditor extends React.Component {
                   <p>Введите тег</p>
                   <Input value={this.state.newTag} onChange={(e) => this.setState({newTag: e.target.value})}/>
                   <br />
-                  <Button level="outline"  onClick={() => this.setState({
-                    newTagModalVisible: false,
-                    tags: this.state.tags.concat([this.state.newTag]),
-                    newTag: ''
-                  })}>Добавить</Button>
+                  <Button
+                    onClick={() => this.setState({
+                      newTagModalVisible: false,
+                      tags: this.state.tags.concat([this.state.newTag]),
+                      newTag: ''
+                    })}
+                  >Добавить</Button>
                 </Group>
               </PopoutWrapper>}
             </Panel>)

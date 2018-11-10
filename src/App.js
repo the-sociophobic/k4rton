@@ -21,7 +21,7 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			activePanel: 'home',
+			activePanel: getUrlData().page || 'home',
 			fetchedUser: null,
 		};
   }

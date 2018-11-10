@@ -1,12 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Panel, PanelHeader, HeaderButton, platform, IOS, Group, Div, Header, Gallery, Spinner, Footer, Cell, Search, HorizontalScroll, Button} from '@vkontakte/vkui';
+import {Panel, PanelHeader, HeaderButton, platform, IOS, Group, Div, Gallery, Spinner, Footer, Cell, Search, HorizontalScroll, Button} from '@vkontakte/vkui';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Icon28Settings from '@vkontakte/icons/dist/28/settings';
 import axios from 'axios'
 import ReactMarkdown from 'react-markdown'
-import { tagColor, changeDataInUrl } from './../utils/utils'
+
+import Tags from './../components/Tags';
+import { changeDataInUrl } from './../utils/utils';
+import myDate from './../utils/myDate';
+
+import publisherIcon from './../img/publisher_icon.png';
+import hashtagIcon from './../img/hashtag_icon.png';
 
 const osname = platform();
 
@@ -70,60 +76,38 @@ class Feed extends React.Component {
     this.setState({selectedTags: tags});
   }
 
-  renderTags(tags) {
-    return (
-      <HorizontalScroll>
-      {
-        tags.map(tag => {
-          let style = {};
-          if (this.state.selectedTags.includes(tag))
-            style = {
-              margin: "0 5px",
-              background: tagColor(tag),
-              color: "white",
-            };
-          else
-            style = {
-              margin: "0 5px",
-              background: "rgba(1, 1, 1, 0)",
-              color: tagColor(tag),
-              boxShadow: "inset 0px 0px 0px 2px " + tagColor(tag),
-            };
-
-          return (
-            <Button
-              onClick={() => this.toggleTag(tag)}
-              style={style}
-            >
-              #{tag}
-            </Button>
-          );
-        })
-      }
-      </HorizontalScroll>
-    );
-  }
-
   renderArticleListing(article) {
     // let text = article.article.find(node => node.type == "text") || {text: ""};
     // let pics = article.article.find(node => node.type == "gallery");
+    let date = new myDate(article.date, "RU");
+
     return (
       <Group>
         <Div onClick={() => {
           changeDataInUrl({article: article.id});
           this.props.open("article");
         }}>
+          <div className="article-publisher">
+            <div className="publisher-avatar">
+              <img src={publisherIcon} />
+            </div>
+            <div className="publisher-info">
+              <div className="publisher-name">{article.publisher}</div>
+              <div className="publishing-time">{date.pastNice()} назад</div>
+            </div>
+          </div>
           <h3 style={{margin: "0px 0"}}>{article.title}</h3>
-          <div>{article.paragraphs.substr && <ReactMarkdown source={article.paragraphs.replace(/\\n/g, '\n')} />}</div>
-          {/*<h3 style={{margin: "0px 0"}}>{article.title}</h3>
-          {pics.pics.length > 0 ? <img src={pics.pics[0]} style={{width: "100%"}} /> : ""}
-          <p>{text.text}</p>*/}
+          {/* <div>{article.paragraphs.substr && <ReactMarkdown source={article.paragraphs.replace(/\\n/g, '\n')} />}</div> */}
+          {/* <h3 style={{margin: "0px 0"}}>{article.title}</h3> */}
+          {/* {pics.pics.length > 0 ? <img src={pics.pics[0]} style={{width: "100%"}} /> : ""}
+          <p>{text.text}</p> */}
         </Div>
-        <Cell>
-          <small>Теги:</small>
-          {this.renderTags(article.tags)}
-          <small>Опубликовал:</small>
-          {' ' + article.publisher}
+        <Cell
+          style={{
+            padding: "2px 0 7px"
+          }}
+        >
+          <Tags tags={article.tags} selectedTags={this.state.selectedTags} toggleTag={(tag) => {this.toggleTag(tag)}} />
         </Cell>
       </Group>
     );
@@ -153,15 +137,19 @@ class Feed extends React.Component {
     return (
       <Panel id="feed">
         <PanelHeader
-          left={<HeaderButton onClick={() => window.getGlobalState().previewFeedMode ? this.props.goBack() : this.props.open('subscribe')}>{window.getGlobalState().previewFeedMode ? (osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>) : <Icon28Settings />}</HeaderButton>}
+          left={<HeaderButton onClick={() => window.getGlobalState().previewFeedMode ? this.props.goBack() : this.props.open('subscribe')}>{window.getGlobalState().previewFeedMode ? (osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>) : <div className="settings-icon-container"><Icon28Settings /></div>}</HeaderButton>}
           noShadow={true}
         >Новости</PanelHeader>
         <Search theme="default" placeholder="Поиск по постам" onChange={value => this.setState({value: value})} />
         <Div>
           <small>Популярные теги:</small>
         </Div>
-        <Cell>
-          {this.renderTags(this.state.popularTags)}
+        <Cell
+          style={{
+            padding: "0"
+          }}
+        >
+          <Tags tags={this.state.popularTags} selectedTags={this.state.selectedTags} toggleTag={(tag) => {this.toggleTag(tag)}} />
         </Cell>
         {this.renderArticles()}
       </Panel>
