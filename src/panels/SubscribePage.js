@@ -1,5 +1,5 @@
 import React from 'react';
-import {Panel, PanelHeader, HeaderButton, platform, Div, Popout, FormLayout, Cell, List, Group, FormLayoutGroup, Input, osname, InfoRow, IOS, Button, Link, Slider, Tabs, TabsItem} from '@vkontakte/vkui';
+import {Panel, PanelHeader, HeaderButton, platform, Div, Popout, FormLayout, Cell, List, Group, Search, FormLayoutGroup, Input, osname, InfoRow, IOS, Button, Link, Slider, Tabs, TabsItem} from '@vkontakte/vkui';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Icon24Search from '@vkontakte/icons/dist/24/search';
@@ -14,6 +14,8 @@ class SubscribePage extends React.Component {
     this.state = {
       code: '',
       tab: 'publishers',
+      searchOpened: false,
+      filter: '',
       tags: [{
         label: 'политика',
         pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
@@ -85,15 +87,16 @@ class SubscribePage extends React.Component {
                       left={<HeaderButton onClick={this.props.goBack}>
                         {osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
                       </HeaderButton>}
-                      noShadow={false}
+                      noShadow={true}
                       right={
-                        <HeaderButton>
+                        <HeaderButton onClick={this.props.goBack}>
                           <Icon24Search />
                         </HeaderButton>
                       }
                     >
                       Гибкая подписка
                     </PanelHeader>
+                    <Search theme="default" onChange={value => this.setState({filter: value})} value={this.state.filter} />
                     <FormLayout>
                       {/*<FormLayoutGroup top="Ваш промокод" bottom="Промокод позволит Вам получить скидку или период бесплатный подписки">
                         <Input value={this.state.period} onChange={value=>{this.setState({ code: value })}} />
@@ -140,16 +143,16 @@ class SubscribePage extends React.Component {
                             onClick={() => this.setState({ tab: 'publishers' })}
                             selected={this.state.tab === 'publishers'}
                           >
-                            Авторские рассылки
+                            Авторские рассылки {this.state.filter === '' ? '' : ('(' + this.state.publishers.filter(publisher => publisher.label.toLowerCase().includes(this.state.filter.toLowerCase())).length + ')')}
                           </TabsItem>
                           <TabsItem
                             onClick={() => this.setState({ tab: 'tags' })}
                             selected={this.state.tab === 'tags'}
                           >
-                            Smart-Теги
+                            Smart-Теги {this.state.filter === '' ? '' : ('(' + this.state.tags.filter(tag => tag.label.toLowerCase().includes(this.state.filter.toLowerCase())).length + ')')}
                           </TabsItem>
                         </Tabs>
-                        {this.state[this.state.tab].map(item =>
+                        {this.state[this.state.tab].filter(item => item.label.toLowerCase().includes(this.state.filter.toLowerCase())).map(item =>
                         <Button level="outline" className="subscribe-source-btn"
                           onClick={() => !state.selected[this.state.tab].includes(item.label) ?
                             window.setGlobalState(oldState => {
@@ -165,8 +168,8 @@ class SubscribePage extends React.Component {
                             })
                           }>
                           <img className="subscribe-pic" src={item.pic} />
-                          {item.label} -
-                          {!state.selected[this.state.tab].includes(item.label) ? (priceTimeFactor(item.price, state.periodType) + 'р.') : 'добавлено'}
+                          {item.label} - 
+                          {!state.selected[this.state.tab].includes(item.label) ? (' ' + priceTimeFactor(item.price, state.periodType) + 'р.') : 'добавлено'}
                           <Link onClick={(e) => {
                             e.stopPropagation()
                             window.setGlobalState({

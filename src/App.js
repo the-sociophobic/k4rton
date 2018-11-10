@@ -40,6 +40,7 @@ class App extends React.Component {
       this.setState({currentArticle: UrlData.article});
     }
 		connect.subscribe((e) => {
+			alert(JSON.stringify(e))
 			switch (e.detail.type) {
 				case 'VKWebAppGetUserInfoResult':
 					this.setState({ fetchedUser: e.detail.data });
