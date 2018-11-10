@@ -21,7 +21,7 @@ class Feed extends React.Component {
     super(props)
     this.state = {
       articles: null,
-      value: "",
+      searchQuery: "",
       selectedTags: [],
       popularTags: [],
     }
@@ -125,9 +125,10 @@ class Feed extends React.Component {
         (this.state.selectedTags.map && this.state.selectedTags.length == 0) ||
         this.state.selectedTags.map(tag => article.tags.includes(tag)).reduce((a, b) => a || b)
       ) && (
-        article.title.includes(this.state.value) ||
-        article.article.map(node => node.type =="text" && node.text.includes(this.state.value)).reduce((a, b) => a || b) ||
-        article.tags.map(tag => tag.includes(this.state.value)).reduce((a, b) => a || b)
+        article.title.includes(this.state.searchQuery) ||
+        // article.article.map(node => node.type =="text" && node.text.includes(this.state.searchQuery)).reduce((a, b) => a || b) ||
+        article.tags.map(tag => tag.includes(this.state.searchQuery)).reduce((a, b) => a || b) ||
+        article.publisher.toLowerCase().includes(this.state.searchQuery)
       )
     )
     .map(article => this.renderArticleListing(article));
@@ -140,7 +141,7 @@ class Feed extends React.Component {
           left={<HeaderButton onClick={() => window.getGlobalState().previewFeedMode ? this.props.goBack() : this.props.open('subscribe')}>{window.getGlobalState().previewFeedMode ? (osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>) : <div className="settings-icon-container"><Icon28Settings /></div>}</HeaderButton>}
           noShadow={true}
         >Новости</PanelHeader>
-        <Search theme="default" placeholder="Поиск по постам" onChange={value => this.setState({value: value})} />
+        <Search theme="default" placeholder="Поиск по постам" onChange={searchQuery => this.setState({searchQuery: searchQuery})} />
         <Div>
           <small>Популярные теги:</small>
         </Div>
