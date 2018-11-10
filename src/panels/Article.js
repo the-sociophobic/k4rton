@@ -6,6 +6,7 @@ import Icon24Back from '@vkontakte/icons/dist/24/back';
 import axios from 'axios'
 
 import PayWall from '../components/PayWall.js'
+import AppState from '../components/AppState'
 
 const osname = platform();
 
@@ -18,14 +19,26 @@ class Article extends React.Component {
   }
   componentWillReceiveProps (props) {
     if (props.article !== null && (this.state.article === null || this.state.article.title !== props.article.title)) {
-      axios.get('/about-lorem-ipsum.json').then(res => {
-        this.setState({article: res.data})
-        this.props.setPayWallData({
-          tags: res.data.tags,
-          publisher: res.data.publisher,
-          title: res.data.title,
-          price: res.data.price,
-        })
+      axios.get('https://agentstvo-adv.ru:3000/api/getNews').then(res => {
+        const data = res.data.result
+        this.setState({article: data})
+        const newGlobalState = {
+          article: {
+            tags: data.tags,
+            publisher: data.publisher,
+            title: data.title,
+            price: data.price,
+          }
+        }
+        if (!window.getGlobalState().subscribingProcess.manuallyChanged)
+          newGlobalState.subscribingProcess = {
+            selected: {
+              tags: data.tags,
+              publishers: [data.publisher]
+            }
+          }
+        newGlobalState.subscribingProcess.periodType = window.getGlobalState().subscribingProcess.periodType
+        window.setGlobalState(newGlobalState)
       }).catch((e) => {
         this.setState({article: {
           title: 'Упс...',
@@ -54,10 +67,11 @@ class Article extends React.Component {
                   case 'gallery':
                     return <Gallery
                         className={className}
-                        slideWidth="500px"
-                        style={{ height: 500, width: 600 }}
+                        slideWidth="100%"
+                        // style={{ height: 500, width: 600 }}
+                        style={{display: "table"}}
                         bullets="dark"
-                      >{node.pics.map(pic => <img src={pic}/>)}</Gallery>
+                      >{node.pics.map(pic => <img src={pic} style={{width: "100%", height: "auto"}} /> )}</Gallery>
                     break
                   default:
                     return <Div className={className}>Error, unkonw node type: {node.type}</Div>

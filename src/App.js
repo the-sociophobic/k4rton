@@ -5,37 +5,42 @@ import '@vkontakte/vkui/dist/vkui.css';
 
 import './styles/main.css';
 
-
 import Home from './panels/Home';
 import Feed from './panels/Feed';
 import Article from './panels/Article';
 import SubscribePage from './panels/SubscribePage';
 import GetOneArticle from './panels/GetOneArticle';
-import navigator from './components/navigator';
-
+import ChannelPreview from './panels/ChannelPreview';
+import navigator from './utils/navigator'
+import AppState from './components/AppState'
 import { getUrlData } from './utils/utils';
-
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			activePanel: 'feed',
+			activePanel: 'home',
 			fetchedUser: null,
 			currentArticle: null,
-			currentArticleData: {}
 		};
   }
 
 	componentDidMount() {
-		navigator.subscribe((path) => {
-			console.log(path)
-			this.setState({ activePanel: path.slice(-1)[0] })
+		navigator.subscribe((path) => this.setState({ activePanel: path.slice(-1)[0] }))
+    navigator.init({
+    	initOpenAllowed: ['home', 'feed', 'article', 'subscribe'],
+    	onInitRedirect: {
+    		'get-one-article': 'article',
+    		'channel-preview': 'subscribe'
+    	}
     })
     let UrlData = getUrlData();
-    if (typeof UrlData.article != "undefined")
+    if (typeof UrlData.article != "undefined") {
+    	console.log(UrlData.article)
       this.setState({currentArticle: UrlData.article});
+    }
 		connect.subscribe((e) => {
+			alert(JSON.stringify(e))
 			switch (e.detail.type) {
 				case 'VKWebAppGetUserInfoResult':
 					this.setState({ fetchedUser: e.detail.data });
@@ -47,10 +52,6 @@ class App extends React.Component {
 		connect.send('VKWebAppGetUserInfo', {});
 	}
 
-	go = (e) => {
-		navigator.go(e.currentTarget.dataset.to)
-		// this.setState({ activePanel: e.currentTarget.dataset.to })
-	};
 	open = (panel) => {
 		navigator.go(panel)
 		// this.setState({ activePanel: panel })
@@ -58,16 +59,18 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<View activePanel={this.state.activePanel}>
-				<Home id="home" fetchedUser={this.state.fetchedUser} go={this.go}  goBack={navigator.back} />
-				<Feed id="feed" fetchedUser={this.state.fetchedUser} open={this.open}  goBack={navigator.back} setArticle={id => this.setState({currentArticle: id})} />
-				<Article id="article" go={this.go} open={this.open}
-					article={this.state.currentArticle} user={this.state.fetchedUser}
-					setPayWallData={(data) => this.setState({currentArticleData: data})}
-					goBack={navigator.back}/>
-				<SubscribePage id="subscribe" go={this.go} open={this.open} articleData={this.state.currentArticleData} goBack={navigator.back} />
-				<GetOneArticle id="get-one-article" go={this.go} open={this.open} article={this.state.currentArticleData}  goBack={navigator.back}/>
-			</View>
+			<AppState.Provider>
+				<View activePanel={this.state.activePanel}>
+					<Home id="home" fetchedUser={this.state.fetchedUser} open={navigator.go} goBack={navigator.back}/>
+					<Feed id="feed" fetchedUser={this.state.fetchedUser} open={this.open}  goBack={navigator.back} setArticle={id => this.setState({currentArticle: id})} />
+					<Article id="article" open={navigator.go}
+						article={this.state.currentArticle} user={this.state.fetchedUser}
+						goBack={navigator.back}/>
+					<SubscribePage id="subscribe" open={navigator.go} articleData={this.state.currentArticleData} goBack={navigator.back} />
+					<GetOneArticle id="get-one-article" open={navigator.go} article={this.state.currentArticleData} goBack={navigator.back}/>
+					<ChannelPreview id="channel-preview" open={navigator.go} goBack={navigator.back} />
+				</View>
+			</AppState.Provider>
 		);
 	}
 }

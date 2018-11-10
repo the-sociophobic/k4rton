@@ -1,4 +1,5 @@
-export function getUrlData() {
+
+export const getUrlData = () => {
   const urlData = {};
 
   if (window.location.hash.length > 0) {
@@ -12,11 +13,11 @@ export function getUrlData() {
   return urlData;
 }
 
-export function clamp(a, min, max) {
+export const clamp = (a, min, max) => {
   return Math.min(max, Math.max(a, min));
 }
 
-export function tagColor0(tag) {
+export const tagColor0 = (tag) => {
   const k = 23;
   let string = "";
 
@@ -30,7 +31,7 @@ export function tagColor0(tag) {
     ).reduce((a, b) => a + b);
 }
 
-export function tagColor(tag) {
+export const tagColor = (tag) => {
   const stylishColors = ["2770f1", "3fb0ac", "ba9077", "729f98", "6534ff", "62bcfa", "e05038", "dc3966", "026f52", "f36523", "e70247", "07a5a4", "4bae54", "c75696", "db3849"];
   const k = 17;
   let hash = 0;
@@ -44,4 +45,16 @@ export function tagColor(tag) {
   return "#" + stylishColors[hash % stylishColors.length];
 }
 
-export default getUrlData;
+export const setUrlData = (urlData) => {
+  let newHash = ''
+  for (let hashPart in urlData) {
+    newHash += hashPart + '=' + urlData[hashPart] + '&'
+  }
+  console.log(newHash)
+  window.location.hash = '#' + newHash.substring(0, newHash.length - 1)
+}
+
+export const changeDataInUrl = (dataDif) => {
+  const newUrlData = Object.assign(getUrlData(), dataDif)
+  setUrlData(newUrlData)
+}
