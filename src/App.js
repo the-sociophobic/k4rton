@@ -58,7 +58,7 @@ class App extends React.Component {
     	}
     })
     // --------- hadrcode --------
-    window.setGlobalState({
+    /*window.setGlobalState({
     	auth: {
 				id: 2314852,
 				signed_user_id: '11',
@@ -67,12 +67,12 @@ class App extends React.Component {
 		this.auth({
 			id: 2314852,
 			signed_user_id: '11',
-  	})
+  	})*/
     // --------- /hadrcode --------
     
     // --------- not hadrcode --------
 		
-		/*connect.subscribe((e) => {
+		connect.subscribe((e) => {
 			
 			// alert(JSON.stringify(e))
 			switch (e.detail.type) {
@@ -93,7 +93,7 @@ class App extends React.Component {
 					// console.log(e.detail.type);
 			}
 
-		});*/
+		});
 
     // --------- /not hadrcode --------
 		
