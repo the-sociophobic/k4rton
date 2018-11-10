@@ -22,14 +22,23 @@ class Article extends React.Component {
       axios.get('https://agentstvo-adv.ru:3000/api/getNews').then(res => {
         const data = res.data.result
         this.setState({article: data})
-        AppState.set({
+        const newGlobalState = {
           article: {
             tags: data.tags,
             publisher: data.publisher,
             title: data.title,
             price: data.price,
           }
-        })
+        }
+        if (!window.getGlobalState().subscribingProcess.manuallyChanged)
+          newGlobalState.subscribingProcess = {
+            selected: {
+              tags: data.tags,
+              publishers: [data.publisher]
+            }
+          }
+        newGlobalState.subscribingProcess.periodType = window.getGlobalState().subscribingProcess.periodType
+        window.setGlobalState(newGlobalState)
       }).catch((e) => {
         this.setState({article: {
           title: 'Упс...',

@@ -1,5 +1,5 @@
 
-export function getUrlData() {
+export const getUrlData = () => {
   const urlData = {};
 
   if (window.location.hash.length > 0) {
@@ -13,4 +13,16 @@ export function getUrlData() {
   return urlData;
 }
 
-export default getUrlData;
+export const setUrlData = (urlData) => {
+  let newHash = ''
+  for (let hashPart in urlData) {
+    newHash += hashPart + '=' + urlData[hashPart] + '&'
+  }
+  console.log(newHash)
+  window.location.hash = '#' + newHash.substring(0, newHash.length - 1)
+}
+
+export const changeDataInUrl = (dataDif) => {
+  const newUrlData = Object.assign(getUrlData(), dataDif)
+  setUrlData(newUrlData)
+}

@@ -11,7 +11,7 @@ import Article from './panels/Article';
 import SubscribePage from './panels/SubscribePage';
 import GetOneArticle from './panels/GetOneArticle';
 import ChannelPreview from './panels/ChannelPreview';
-import navigator from './components/navigator'
+import navigator from './utils/navigator'
 import AppState from './components/AppState'
 import { getUrlData } from './utils/utils';
 
@@ -19,7 +19,7 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			activePanel: 'feed',
+			activePanel: 'home',
 			fetchedUser: null,
 			currentArticle: null,
 		};
@@ -27,9 +27,18 @@ class App extends React.Component {
 
 	componentDidMount() {
 		navigator.subscribe((path) => this.setState({ activePanel: path.slice(-1)[0] }))
+    navigator.init({
+    	initOpenAllowed: ['home', 'feed', 'article', 'subscribe'],
+    	onInitRedirect: {
+    		'get-one-article': 'article',
+    		'channel-preview': 'subscribe'
+    	}
+    })
     let UrlData = getUrlData();
-    if (typeof UrlData.article != "undefined")
+    if (typeof UrlData.article != "undefined") {
+    	console.log(UrlData.article)
       this.setState({currentArticle: UrlData.article});
+    }
 		connect.subscribe((e) => {
 			switch (e.detail.type) {
 				case 'VKWebAppGetUserInfoResult':
