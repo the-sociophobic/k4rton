@@ -1,16 +1,31 @@
 import React from 'react';
-import {Panel, PanelHeader, HeaderButton, platform, Div, Popout, FormLayout, Cell, List, Group, Search, FormLayoutGroup, Input, osname, InfoRow, IOS, Button, Link, Slider, Tabs, TabsItem} from '@vkontakte/vkui';
+import {Panel, PanelHeader, HeaderButton, platform, Div, Popout, FormLayout, FixedLayout, Cell, List, Group, Search, FormLayoutGroup, Input, osname, InfoRow, IOS, Button, Link, Slider, Tabs, TabsItem} from '@vkontakte/vkui';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Icon24Search from '@vkontakte/icons/dist/24/search';
 import Icon28Info from '@vkontakte/icons/dist/28/info_outline';
 import AppState from '../components/AppState'
+import axios from 'axios'
 
 const availiblePeriods = ['Неделя', 'Две недели', 'Месяц', '6 Месяцев', 'Год', '5 лет']
+const periodTypeToTime = (type) => {
+  if (type === 1)
+    return 1000 * 60 * 60 * 24 * 7
+  if (type === 2)
+    return 1000 * 60 * 60 * 24 * 14
+  if (type === 3)
+    return 1000 * 60 * 60 * 24 * 30
+  if (type === 4)
+    return 1000 * 60 * 60 * 24 * 30 * 6
+  if (type === 5)
+    return 1000 * 60 * 60 * 24 * 30 * 12
+  return 0
+}
 
 class SubscribePage extends React.Component {
   constructor(props) {
     super(props)
+    this.handleScroll = this.handleScroll.bind(this)
     this.state = {
       code: '',
       tab: 'publishers',
@@ -44,6 +59,139 @@ class SubscribePage extends React.Component {
         subscribers: 7,
         publishers: ['Бумага', 'Лентач'],
         price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
+      }, {
+        label: 'политика',
+        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
+        description: 'Lorem ipsum dolor sit amet',
+        subscribers: 7,
+        publishers: ['Бумага', 'Лентач'],
+        price: 123
       }],
       publishers: [{
         label: 'Бумага',
@@ -60,6 +208,34 @@ class SubscribePage extends React.Component {
       }],
     }
   }
+  subscribe() {
+    const subscribing = window.getGlobalState().subscribingProcess
+    axios.post(window.getGlobalState().apiUrl + '/subscriptions', {
+      subscriptions: {
+        tags: subscribing.selected.tags,
+        publishers: subscribing.selected.publishers,
+        endDate: new Date(Date.now() + periodTypeToTime(subscribing.periodType)).getTime(),
+        autoDeposit: true
+      },
+      userId: window.getGlobalState().auth.id,
+      signedUserId: window.getGlobalState().auth.signed_user_id
+    }).then(() => {
+      this.props.goBack()
+    }).catch(console.log)
+  }
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll)
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll)
+  }
+  handleScroll() {
+    if (window.pageYOffset > 73) {
+      !this.state.fixedOverlay && this.setState({fixedOverlay: true})
+    } else {
+      this.state.fixedOverlay && this.setState({fixedOverlay: false})
+    }
+  }
   // componentDidMount() {
   //   const newState = {selected: {}}
   //   const globalState = window.getGlobalState()
@@ -69,6 +245,22 @@ class SubscribePage extends React.Component {
   //     newState.selected.tags = globalState.article.tags
   //   this.setState(newState)
   // }
+  renderTabs() {
+    return  <Tabs>
+              <TabsItem
+                onClick={() => this.setState({ tab: 'publishers' })}
+                selected={this.state.tab === 'publishers'}
+              >
+                Авторские рассылки {this.state.filter === '' ? '' : ('(' + this.state.publishers.filter(publisher => publisher.label.toLowerCase().includes(this.state.filter.toLowerCase())).length + ')')}
+              </TabsItem>
+              <TabsItem
+                onClick={() => this.setState({ tab: 'tags' })}
+                selected={this.state.tab === 'tags'}
+              >
+                Smart-Теги {this.state.filter === '' ? '' : ('(' + this.state.tags.filter(tag => tag.label.toLowerCase().includes(this.state.filter.toLowerCase())).length + ')')}
+              </TabsItem>
+            </Tabs>
+  }
   render() {
     return (
         <AppState.Consumer>
@@ -96,7 +288,10 @@ class SubscribePage extends React.Component {
                     >
                       Гибкая подписка
                     </PanelHeader>
-                    <Search theme="default" onChange={value => this.setState({filter: value})} value={this.state.filter} />
+                    {(this.state.fixedOverlay || this.state.filter !== '') && <FixedLayout>
+                      <Search placeholder={"Поиск по " + ( this.state.tab === 'tags' ? 'смарт-тегам' : 'авторским каналам' )} theme="default" onChange={value => this.setState({filter: value})} value={this.state.filter} />
+                      {this.renderTabs()}
+                    </FixedLayout>}
                     <FormLayout>
                       {/*<FormLayoutGroup top="Ваш промокод" bottom="Промокод позволит Вам получить скидку или период бесплатный подписки">
                         <Input value={this.state.period} onChange={value=>{this.setState({ code: value })}} />
@@ -119,9 +314,19 @@ class SubscribePage extends React.Component {
                       </Group>
                       {(state.selected.publishers.length + state.selected.tags.length > 0) &&
                       <React.Fragment>
-                        <Button level="outline">Посмотреть превью вашей новостной ленты</Button>
+                        <Button level="outline"  onClick={() => {
+                          window.setGlobalState(oldState => {
+                            oldState.previewFeedMode = {
+                              publishers: oldState.subscribingProcess.selected.publishers,
+                              tags: oldState.subscribingProcess.selected.tags,
+                            }
+                          })
+                          this.props.open('feed')
+                        }}>Посмотреть превью вашей новостной ленты</Button>
                         <Group><List>{state.selected.publishers.concat(state.selected.tags).map((label) => {
                           const item = this.state.publishers.concat(this.state.tags).find(a => a.label == label)
+                          if (!item)
+                            return <Cell>-</Cell>
                           const isTag = this.state.tags.find(a => a.label == label) !== undefined
                           sumPrice += priceTimeFactor(item.price, state.periodType)
                           return  <Cell>
@@ -132,26 +337,13 @@ class SubscribePage extends React.Component {
                                         return oldState
                                       })}>x</Button>
                                   </Cell>})}
-                        <Cell><Button className="pay-subscribtion">Получить подписку за 
+                        <Cell><Button className="pay-subscribtion" onClick={() => this.subscribe()}>Получить подписку за 
                           {((discount == 0) ? (' ' + sumPrice + 'р.') : <React.Fragment> <span className="line-throw">{sumPrice}р.</span> {Math.round(sumPrice * (1 - discount) * 100) / 100}р.</React.Fragment>)}
                         </Button></Cell>
                         </List></Group>
                       </React.Fragment>}
                       <FormLayoutGroup>
-                        <Tabs>
-                          <TabsItem
-                            onClick={() => this.setState({ tab: 'publishers' })}
-                            selected={this.state.tab === 'publishers'}
-                          >
-                            Авторские рассылки {this.state.filter === '' ? '' : ('(' + this.state.publishers.filter(publisher => publisher.label.toLowerCase().includes(this.state.filter.toLowerCase())).length + ')')}
-                          </TabsItem>
-                          <TabsItem
-                            onClick={() => this.setState({ tab: 'tags' })}
-                            selected={this.state.tab === 'tags'}
-                          >
-                            Smart-Теги {this.state.filter === '' ? '' : ('(' + this.state.tags.filter(tag => tag.label.toLowerCase().includes(this.state.filter.toLowerCase())).length + ')')}
-                          </TabsItem>
-                        </Tabs>
+                        {!(!this.state.fixedOverlay && this.state.filter !== '') && this.renderTabs()}
                         {this.state[this.state.tab].filter(item => item.label.toLowerCase().includes(this.state.filter.toLowerCase())).map(item =>
                         <Button level="outline" className="subscribe-source-btn"
                           onClick={() => !state.selected[this.state.tab].includes(item.label) ?

@@ -8,7 +8,9 @@ const defaultState = {
       publishers: []
     },
     periodType: 1
-  }
+  },
+  apiUrl: 'https://agentstvo-adv.ru:3000/api',
+  previewFeedMode: false
 }
 const appState = React.createContext(defaultState)
 
@@ -16,6 +18,7 @@ const appState = React.createContext(defaultState)
 class globalStateProvider extends React.Component {
   constructor(props) {
     super(props)
+    this.state = defaultState
     window.setGlobalState = (newState) => {
       if (typeof newState === 'function') {
         this.setState(newState(Object.assign({}, this.state)))
@@ -24,6 +27,7 @@ class globalStateProvider extends React.Component {
       }
     }
     window.getGlobalState = () => Object.assign({}, this.state)
+  
   }
   componentDidMount() {
     this.setState(defaultState)

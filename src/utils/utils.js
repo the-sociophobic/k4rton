@@ -1,3 +1,4 @@
+import connect from '@vkontakte/vkui-connect';
 
 export const getUrlData = () => {
   const urlData = {};
@@ -50,8 +51,9 @@ export const setUrlData = (urlData) => {
   for (let hashPart in urlData) {
     newHash += hashPart + '=' + urlData[hashPart] + '&'
   }
-  console.log(newHash)
-  window.location.hash = '#' + newHash.substring(0, newHash.length - 1)
+  const hash = newHash.substring(0, newHash.length - 1)
+  connect.send("VKWebAppSetLocation", {"location": hash});
+  window.location.hash = '#' + hash
 }
 
 export const changeDataInUrl = (dataDif) => {

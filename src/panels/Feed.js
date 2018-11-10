@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import {Panel, PanelHeader, HeaderButton, platform, IOS, Group, Div, Header, Gallery, Spinner, Footer, Cell, Search, HorizontalScroll, Button} from '@vkontakte/vkui';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
+import Icon28Settings from '@vkontakte/icons/dist/28/settings';
 import axios from 'axios'
-
-import { tagColor } from './../utils/utils'
+import ReactMarkdown from 'react-markdown'
+import { tagColor, changeDataInUrl } from './../utils/utils'
 
 const osname = platform();
 
@@ -22,13 +23,20 @@ class Feed extends React.Component {
 
 
   componentWillReceiveProps (props) {
-    axios.get('/articles.json').then(res => {
-      this.setState({articles: res.data});
+    const globalState = window.getGlobalState()
+    let url = ''
+    if (globalState.previewFeedMode && (globalState.previewFeedMode.tags.length + globalState.previewFeedMode.publishers.length > 0))
+      url = `${window.getGlobalState().apiUrl}/allArticles?userId=${window.getGlobalState().auth.id}&signedUserId=${window.getGlobalState().auth.signed_user_id}` +
+        (globalState.previewFeedMode.tags.length > 0 ? `&tags=${globalState.previewFeedMode.tags.join(',')}` : '') +
+        (globalState.previewFeedMode.publishers.length > 0 ? `&publishers=${globalState.previewFeedMode.publishers.join(',')}` : '')
+    else
+      url = `${window.getGlobalState().apiUrl}/articles?userId=${window.getGlobalState().auth.id}&signedUserId=${window.getGlobalState().auth.signed_user_id}`
+    axios.get(url).then(res => {
+      this.setState({articles: res.data.result.articles});
       let popularTags = [];
-      res.data.forEach(article => {
+      res.data.result.articles.forEach(article => {
         article.tags.forEach(tag => {
           let index = popularTags.findIndex(tagg => tagg.tag == tag);
-
           if (index === -1)
             popularTags.push({tag: tag, popularity: 1});
           else
@@ -45,6 +53,7 @@ class Feed extends React.Component {
       .map(tag => tag.tag);
       this.setState({popularTags: popularTags});
     }).catch((e) => {
+      console.log(e)
       this.setState({
         articles: [],
       })
@@ -96,46 +105,40 @@ class Feed extends React.Component {
   }
 
   renderArticleListing(article) {
-    let text = article.article.find(node => node.type == "text") || {text: ""};
-    let pics = article.article.find(node => node.type == "gallery");
-
+    // let text = article.article.find(node => node.type == "text") || {text: ""};
+    // let pics = article.article.find(node => node.type == "gallery");
     return (
       <Group>
         <Div onClick={() => {
-          this.props.setArticle(article.id);
+          changeDataInUrl({article: article.id});
           this.props.open("article");
         }}>
           <h3 style={{margin: "0px 0"}}>{article.title}</h3>
-          {/* {
-            !pics ? "" :
-              <Gallery
-                slideWidth="100%"
-                style={{ height: "auto", width: "100%" }}
-                bullets="dark"
-              >
-                {pics.pics.map(pic => <img src={pic}/>)}
-              </Gallery>
-          } */}
+          <div>{article.paragraphs.substr && <ReactMarkdown source={article.paragraphs.replace(/\\n/g, '\n')} />}</div>
+          {/*<h3 style={{margin: "0px 0"}}>{article.title}</h3>
           {pics.pics.length > 0 ? <img src={pics.pics[0]} style={{width: "100%"}} /> : ""}
-          <p>{text.text}</p>
+          <p>{text.text}</p>*/}
         </Div>
         <Cell>
           <small>Теги:</small>
           {this.renderTags(article.tags)}
+          <small>Опубликовал:</small>
+          {' ' + article.publisher}
         </Cell>
       </Group>
     );
   }
   
   renderArticles() {
-    if (this.state.articles == null)
+    // console.log(this.state.articles)
+    if (this.state.articles == null || this.state.articles == undefined)
       return <Div><Spinner /></Div>;
     if (this.state.articles.length == 0)
       return <Footer>нет новостей</Footer>;
     return this.state.articles
     .filter(article =>
       (
-        this.state.selectedTags.length == 0 ||
+        (this.state.selectedTags.map && this.state.selectedTags.length == 0) ||
         this.state.selectedTags.map(tag => article.tags.includes(tag)).reduce((a, b) => a || b)
       ) && (
         article.title.includes(this.state.value) ||
@@ -149,10 +152,11 @@ class Feed extends React.Component {
   render() {
     return (
       <Panel id="feed">
-        <PanelHeader>
-          Новости
-        </PanelHeader>
-        <Search theme="default" onChange={value => this.setState({value: value})} />
+        <PanelHeader
+          left={<HeaderButton onClick={() => window.getGlobalState().previewFeedMode ? this.props.goBack() : this.props.open('subscribe')}>{window.getGlobalState().previewFeedMode ? (osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>) : <Icon28Settings />}</HeaderButton>}
+          noShadow={true}
+        >Новости</PanelHeader>
+        <Search theme="default" placeholder="Поиск по постам" onChange={value => this.setState({value: value})} />
         <Div>
           <small>Популярные теги:</small>
         </Div>

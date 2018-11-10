@@ -23,7 +23,6 @@ class App extends React.Component {
 		this.state = {
 			activePanel: 'home',
 			fetchedUser: null,
-			currentArticle: null,
 		};
   }
 
@@ -37,16 +36,24 @@ class App extends React.Component {
     		'preview-feed': 'home'
     	}
     })
-    let UrlData = getUrlData();
-    if (typeof UrlData.article != "undefined") {
-    	console.log(UrlData.article)
-      this.setState({currentArticle: UrlData.article});
-    }
+    window.setGlobalState({
+    	auth: {
+				id: 2314852,
+				signed_user_id: '11',
+    	}
+		})
 		connect.subscribe((e) => {
+			
 			// alert(JSON.stringify(e))
 			switch (e.detail.type) {
 				case 'VKWebAppGetUserInfoResult':
 					this.setState({ fetchedUser: e.detail.data });
+					window.setGlobalState({
+						auth: {
+							user_id: e.detail.data.id,
+							signed_user_id: e.detail.data.signed_user_id,
+						}
+					})
 					break;
 				default:
 					// console.log(e.detail.type);
@@ -65,9 +72,9 @@ class App extends React.Component {
 			<AppState.Provider>
 				<View activePanel={this.state.activePanel}>
 					<Home id="home" fetchedUser={this.state.fetchedUser} open={navigator.go} goBack={navigator.back}/>
-					<Feed id="feed" fetchedUser={this.state.fetchedUser} open={this.open}  goBack={navigator.back} setArticle={id => this.setState({currentArticle: id})} />
+					<Feed id="feed" fetchedUser={this.state.fetchedUser} open={this.open}  goBack={navigator.back} />
 					<Article id="article" open={navigator.go}
-						article={this.state.currentArticle} user={this.state.fetchedUser}
+						user={this.state.fetchedUser}
 						goBack={navigator.back}/>
 					<SubscribePage id="subscribe" open={navigator.go} articleData={this.state.currentArticleData} goBack={navigator.back} />
 					<GetOneArticle id="get-one-article" open={navigator.go} article={this.state.currentArticleData} goBack={navigator.back}/>

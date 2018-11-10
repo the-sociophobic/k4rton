@@ -1,21 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Panel, PanelHeader, HeaderButton, platform, IOS, Group, Div, Header, Gallery, Button} from '@vkontakte/vkui';
+import {Panel, PanelHeader, HeaderButton, platform, IOS, Group, Div, Header, Gallery, Button, Spinner} from '@vkontakte/vkui';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
+import axios from 'axios'
 const osname = platform();
 
 class Home extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+    	auth: false
+    }
   }
+  // componentWillReceiveProps() {
+  // }
   render() {
+  	if (!this.state.auth && window.getGlobalState().auth !== undefined)
+	  	axios.post(window.getGlobalState().apiUrl + '/autorizeUser', {
+  			userProfile: window.getGlobalState().auth
+	  	}).then((res) => {
+	  		if (res.data.success && (res.data.result.subscriptions.tags.length + res.data.result.subscriptions.publishers.length > 0)) {
+	  			this.props.open('feed')
+	  		} else {
+	  			this.props.open('subscribe')
+	  		}
+	  	}).catch(console.log)
     return  (<Panel id={this.props.id}>
-              <PanelHeader>
-                Home page
-              </PanelHeader>
               <Div>
-                <Button className="pay-subscribtion" level="outline" onClick={() => this.props.open('article')}>Идти к персику</Button>
+                <Spinner />
               </Div>
             </Panel>)
   }

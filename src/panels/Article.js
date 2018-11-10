@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import {Panel, PanelHeader, HeaderButton, platform, IOS, Group, Div, Header, Gallery, Spinner} from '@vkontakte/vkui';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
+import ReactMarkdown from 'react-markdown'
 import axios from 'axios'
-
+import { getUrlData } from '../utils/utils'
 import PayWall from '../components/PayWall.js'
 import AppState from '../components/AppState'
 
@@ -17,46 +18,41 @@ class Article extends React.Component {
       article: null
     }
   }
-  componentWillReceiveProps (props) {
-    if (props.article !== null && (this.state.article === null || this.state.article.title !== props.article.title)) {
-      axios.get('https://agentstvo-adv.ru:3000/api/getNews').then(res => {
-        // console.log(res)
-        const data = res.data.result
-        this.setState({article: data})
+  componentDidMount () {
+    const urlData = getUrlData()
+    if (urlData.article !== undefined && (this.state.article === null || this.state.article.id !== urlData.article)) {
+      axios.get(`${window.getGlobalState().apiUrl}/article?userId=${window.getGlobalState().auth.id}&signedUserId=${window.getGlobalState().auth.signed_user_id}&articleId=${urlData.article}`).then(res => {
+        const article = res.data.result.article
+        this.setState({article})
         const newGlobalState = {
           article: {
-            tags: data.tags,
-            publisher: data.publisher,
-            title: data.title,
-            price: data.price,
+            tags: article.tags,
+            publisher: article.publisher,
+            title: article.title,
+            price: article.price,
           }
         }
         if (!window.getGlobalState().subscribingProcess.manuallyChanged)
           newGlobalState.subscribingProcess = {
             selected: {
-              tags: data.tags,
-              publishers: [data.publisher]
+              tags: article.tags,
+              publishers: [article.publisher]
             }
           }
         newGlobalState.subscribingProcess.periodType = window.getGlobalState().subscribingProcess.periodType
         window.setGlobalState(newGlobalState)
       }).catch((e) => {
+        console.log(e)
         this.setState({article: {
           title: 'Упс...',
-          article: [{
-            type: 'text',
-            text: 'Произошла ошибка при загрузке статьи'
-          }, {
-            type: 'text',
-            text: 'Подробности в консоли'
-          }]
+          paragraphs: '# Произошла ошибка \\n\\n детали в консоли'
         }})
       })
     }
   }
-  genArticle(articleNodes) {
+  genArticle() {
     return  <React.Fragment>
-              {this.state.article.article.map((node, i) => {
+              {/*this.state.article.article.map((node, i) => {
                 const className = i === this.state.article.article.length - 1 && this.state.article.payWall && 'last-text-block'
                 switch(node.type) {
                   case 'text':
@@ -77,8 +73,10 @@ class Article extends React.Component {
                   default:
                     return <Div className={className}>Error, unkonw node type: {node.type}</Div>
                 }
-              })}
-              {this.state.article.payWall && <PayWall
+              })*/}
+              <Div>{this.state.article.paragraphs.substr &&
+                <ReactMarkdown source={this.state.article.paragraphs.replace(/\\n/g, '\n')} />}</Div>
+              {this.state.article.payWall < 100 && <PayWall
                 part={this.state.article.payWall}
                 goToGetArticlePage={() => this.props.open('get-one-article')}
                 goToSubscribePage={() => this.props.open('subscribe')}
@@ -86,17 +84,17 @@ class Article extends React.Component {
             </React.Fragment>
   }
   render() {
-
+    console.log(this.state.article)
     return  (<Panel id={this.props.id}>
               <PanelHeader
                 left={<HeaderButton onClick={this.props.goBack}>
                   {osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
                 </HeaderButton>}
               >
-                {this.state.article != null ? this.state.article.title : 'Загрузка статьи...'}
+                {this.state.article ? this.state.article.title : 'Загрузка статьи...'}
               </PanelHeader>
-              {this.state.article != null ?
-                <Group>{this.genArticle(this.state.article)}</Group> :
+              {this.state.article && this.state.article.paragraphs ?
+                <Group>{this.genArticle()}</Group> :
                 <Div><Spinner /></Div>}
             </Panel>)
   }

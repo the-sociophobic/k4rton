@@ -135,3 +135,9 @@
   width: 100%;
   padding: 20px
 }
+.DraftEditor-editorContainer {
+  padding: 10px;
+}
+.FixedLayout {
+  width: 100%
+}
