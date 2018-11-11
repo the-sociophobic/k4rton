@@ -6,6 +6,7 @@ import Icon24Search from '@vkontakte/icons/dist/24/search';
 import Icon28Info from '@vkontakte/icons/dist/28/info_outline';
 import AppState from '../components/AppState'
 import axios from 'axios'
+import connect from '@vkontakte/vkui-connect';
 
 const availiblePeriods = ['Неделя', 'Две недели', 'Месяц', '6 Месяцев', 'Год', '5 лет']
 const periodTypeToTime = (type) => {
@@ -26,43 +27,67 @@ class SubscribePage extends React.Component {
   constructor(props) {
     super(props)
     this.handleScroll = this.handleScroll.bind(this)
+    this.sumPrice = 0
     this.state = {
       code: '',
       tab: 'publishers',
       searchOpened: false,
       filter: '',
-      tags: [{
-        label: 'политика',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Lorem ipsum dolor sit amet',
-        subscribers: 10,
-        publishers: ['Бумага', 'Лентач'],
-        price: 123
-      }],
-      publishers: [{
-        label: 'Бумага',
-        pic: 'https://www.telegraf-spb.ru/published/publicdata/B622311/attachments/SC/products_pictures/united-states-flag_enl.jpg',
-        description: 'Бумага, рвётся, горит, делается из трёх тростников',
-        subscribers: 11,
-        price: 123
-      }],
+      tags: [],
+      publishers: [],
     }
   }
-  subscribe() {
-    const subscribing = window.getGlobalState().subscribingProcess
-    axios.post(window.getGlobalState().apiUrl + '/subscriptions', {
-      subscriptions: {
-        tags: subscribing.selected.tags,
-        publishers: subscribing.selected.publishers,
-        endDate: new Date(Date.now() + periodTypeToTime(subscribing.periodType)).getTime(),
-        autoDeposit: true
-      },
-      userId: window.getGlobalState().auth.id,
-      signedUserId: window.getGlobalState().auth.signed_user_id
-    }).then(() => {
-      this.props.goBack()
-    }).catch(console.log)
+
+  VKPay(amount) {
+    connect.send("VKWebAppOpenPayForm", { 
+      "app_id": 6746945, 
+      "action": "pay-to-group", 
+      "params": { 
+          "amount": amount, 
+          "description": "тестовый платеж", 
+          "group_id": 132153534 
+          } 
+      });
   }
+
+  subscribe() {
+    this.VKPay(/*this.sumPrice*/1)
+    const subscribing = window.getGlobalState().subscribingProcess
+    setTimeout(() => {
+      axios.post(window.getGlobalState().apiUrl + '/subscriptions', {
+        subscriptions: {
+          tags: subscribing.selected.tags,
+          publishers: subscribing.selected.publishers,
+          endDate: new Date(Date.now() + periodTypeToTime(subscribing.periodType)).getTime(),
+          autoDeposit: true
+        },
+        userId: window.getGlobalState().auth.id,
+        signedUserId: window.getGlobalState().auth.id //window.getGlobalState().auth.signed_user_id
+      }).then(() => {
+        this.props.goBack()
+      }).catch(console.log)
+    }, 5000)
+  }
+  // componentWillMount() {
+  //   connect.subscribe(e => {
+  //     // console.log(e)
+  //     if (e.type === 'VKWebAppOpenPayFormResult') {
+  //       const subscribing = window.getGlobalState().subscribingProcess
+  //       axios.post(window.getGlobalState().apiUrl + '/subscriptions', {
+  //         subscriptions: {
+  //           tags: subscribing.selected.tags,
+  //           publishers: subscribing.selected.publishers,
+  //           endDate: new Date(Date.now() + periodTypeToTime(subscribing.periodType)).getTime(),
+  //           autoDeposit: true
+  //         },
+  //         userId: window.getGlobalState().auth.id,
+  //         signedUserId: window.getGlobalState().auth.id //window.getGlobalState().auth.signed_user_id
+  //       }).then(() => {
+  //         this.props.goBack()
+  //       }).catch(console.log)
+  //     }
+  //   })
+  // }
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll)
     axios.get(`${window.getGlobalState().apiUrl}/tagsAndPublishers`).then(res => {
@@ -77,7 +102,7 @@ class SubscribePage extends React.Component {
         })
       })
     }).catch(console.log)
-    axios.get()
+    // axios.get()
   }
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll)
@@ -185,6 +210,7 @@ class SubscribePage extends React.Component {
                             return <Cell>-</Cell>
                           const isTag = this.state.tags.find(a => a.label == label) !== undefined
                           sumPrice += priceTimeFactor(item.price, state.periodType)
+                          this.sumPrice = sumPrice
                           return  <Cell>
                                     {(isTag ? '#' : '') + item.label} - {priceTimeFactor(item.price, state.periodType)}р.
                                     <Button level="outline" className="remove-from-subscribtions-btn"
@@ -238,4 +264,4 @@ class SubscribePage extends React.Component {
 
 export default SubscribePage
 
-const priceTimeFactor = (price, periodType) => price * periodType
+const priceTimeFactor = (price, periodType) => Math.round(price * periodType * 100) / 100

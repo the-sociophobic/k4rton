@@ -15,6 +15,8 @@ import publisherIcon from './../img/publisher_icon.png';
 import hashtagIcon from './../img/hashtag_icon.png';
 import IconAccount from '@vkontakte/icons/dist/28/user';
 
+// import WebGL from './../components/GL/WebGL';
+
 const osname = platform();
 
 class Feed extends React.Component {
@@ -98,6 +100,19 @@ class Feed extends React.Component {
           changeDataInUrl({article: article.id});
           this.props.open("article");
         }}>
+
+
+          {/* <WebGL input={{
+              paused: false,
+              width: 700,
+              height: 700,
+              zoom: .5,
+            }}
+            setOutput={() => {}}
+            /> */}
+
+
+
           <div className="article-publisher">
             <div className="publisher-avatar">
               <img src={publisherIcon} />
@@ -126,6 +141,11 @@ class Feed extends React.Component {
   
   renderArticles() {
     // console.log(this.state.articles)
+    if ((!window.getGlobalState().currentSubscribtion || (window.getGlobalState().currentSubscribtion.tags.length + window.getGlobalState().currentSubscribtion.publishers.length === 0)) && !window.getGlobalState().previewFeedMode)
+      return  <Div className="text-center">
+                <p>У вас не оформлена подписка!</p>
+                <Button level="outline" onClick={() => this.props.open('subscribe')}>Оформить</Button>
+              </Div>
     if (this.state.articles == null || this.state.articles == undefined)
       return <Div><Spinner /></Div>;
     if (this.state.articles.length == 0)
@@ -160,18 +180,21 @@ class Feed extends React.Component {
           noShadow={true}
         >{!window.getGlobalState().previewFeedMode ? (<>{this.state.isUserPublisher && <IconAccount className="account-icon" onClick={() => this.props.open('publisher-account')} />} Новости</>) : 'Превью новостей'}</PanelHeader>
         <Search theme="default" placeholder="Поиск по постам" onChange={value => this.setState({value: value})} />
-        <Div>
-          <small>Популярные теги:</small>
-        </Div>
-        <Cell
-          style={{
-            padding: "0"
-          }}
-        >
-          <Tags tags={this.state.popularTags} selectedTags={this.state.selectedTags} toggleTag={(tag) => {this.toggleTag(tag)}} />
-        </Cell>
-        {this.renderArticles()}
-      </Panel>
+        {this.state.popularTags.length > 0 &&
+          <React.Fragment>
+            <Div>
+              <small>Популярные теги:</small>
+            </Div>
+            <Cell
+              style={{
+                padding: "0"
+              }}
+            >
+              <Tags tags={this.state.popularTags} selectedTags={this.state.selectedTags} toggleTag={(tag) => {this.toggleTag(tag)}} />
+            </Cell>
+          </React.Fragment>}
+          {this.renderArticles()}
+        </Panel>
     );
   }
 }

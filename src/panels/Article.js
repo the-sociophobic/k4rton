@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Panel, PanelHeader, HeaderButton, platform, IOS, Group, Div, Header, Gallery, Spinner} from '@vkontakte/vkui';
+import {Panel, PanelHeader, HeaderButton, platform, IOS, Group, Div, Header, Gallery, Spinner, List} from '@vkontakte/vkui';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import ReactMarkdown from 'react-markdown'
@@ -8,6 +8,7 @@ import axios from 'axios'
 import { getUrlData } from '../utils/utils'
 import PayWall from '../components/PayWall.js'
 import AppState from '../components/AppState'
+import Tags from './../components/Tags';
 
 const osname = platform();
 
@@ -76,11 +77,32 @@ class Article extends React.Component {
               })*/}
               <Div>{this.state.article.paragraphs.substr &&
                 <ReactMarkdown source={this.state.article.paragraphs.replace(/\\n/g, '\n')} />}</Div>
-              {this.state.article.payWall < 100 && <PayWall
+              {this.state.article.payWall < 100 ? <PayWall
                 part={this.state.article.payWall}
                 goToGetArticlePage={() => this.props.open('get-one-article')}
                 goToSubscribePage={() => this.props.open('subscribe')}
-              />}
+              /> : <React.Fragment>
+                <Group>
+                  <List>
+                    <Div onClick={() => {
+                      window.setGlobalState(oldState => {
+                        oldState.previewFeedMode = {tags: [], publishers: []}
+                        oldState.previewFeedMode.publishers = [this.state.article.publisher]
+                        return oldState
+                      })
+                      this.props.open('feed')
+                    }}>Канал: {this.state.article.publisher}</Div>
+                    <Div><Tags tags={this.state.article.tags} toggleTag={tag => {
+                      window.setGlobalState(oldState => {
+                        oldState.previewFeedMode = {tags: [], publishers: []}
+                        oldState.previewFeedMode.tags = [tag]
+                        return oldState
+                      })
+                      this.props.open('feed')
+                    }} /></Div>
+                  </List>
+                </Group>
+              </React.Fragment>}
             </React.Fragment>
   }
   render() {

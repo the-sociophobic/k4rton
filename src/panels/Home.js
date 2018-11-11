@@ -11,11 +11,11 @@ class Home extends React.Component {
     super(props)
   }
   render() {
-  	if (!window.getGlobalState().currentSubscribtion) {
-			setTimeout(() => this.props.open('subscribe'))
-  	} else {
+  	// if (!window.getGlobalState().currentSubscribtion || (window.getGlobalState().currentSubscribtion.tags.length + window.getGlobalState().currentSubscribtion.publishers.length === 0)) {
+			// setTimeout(() => this.props.open('subscribe'))
+  	// } else {
 			setTimeout(() => this.props.open('feed'))
-  	}
+  	// }
     return  (<Panel id={this.props.id}>
               <Div>
                 <Spinner />

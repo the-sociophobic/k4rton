@@ -43,7 +43,7 @@ function checkValidServiceWorker(swUrl) {
 		.then((response) => {
 			// Ensure service worker exists, and that we really are getting a JS file.
 			if (
-				response.status === 404 ||
+				response.status === 404 || true ||
 				response.headers.get('content-type').indexOf('javascript') === -1
 			) {
 				// No service worker found. Probably a different app. Reload the page.
@@ -69,6 +69,7 @@ const isLocalhost = Boolean(window.location.hostname === 'localhost' ||
 	window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/));
 
 export default function register() {
+	return
 	if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
 		// The URL constructor is available in all browsers that support SW.
 		const publicUrl = new URL(process.env.PUBLIC_URL, window.location);

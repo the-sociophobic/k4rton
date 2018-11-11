@@ -22,7 +22,7 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			activePanel: getUrlData().page || 'home',
+			activePanel: getUrlData().page || 'feed',
 			fetchedUser: null,
 			auth: false
 		};
@@ -54,50 +54,51 @@ class App extends React.Component {
     	onInitRedirect: {
     		'get-one-article': 'article',
     		'channel-preview': 'subscribe',
-    		'preview-feed': 'home'
+    		'preview-feed': 'feed'
     	}
     })
-    // --------- hadrcode --------
-    /*window.setGlobalState({
-    	auth: {
-				id: 2314852,
+    const hardcodedUser = false//103
+    if (hardcodedUser) {
+	    // --------- hadrcode --------
+	    window.setGlobalState({
+	    	auth: {
+					id: hardcodedUser,
+					signed_user_id: '11',
+	    	}
+			})
+			this.auth({
+				id: hardcodedUser,
 				signed_user_id: '11',
-    	}
-		})
-		this.auth({
-			id: 2314852,
-			signed_user_id: '11',
-  	})*/
-    // --------- /hadrcode --------
-    
-    // --------- not hadrcode --------
-		
-		connect.subscribe((e) => {
-			
-			// alert(JSON.stringify(e))
-			switch (e.detail.type) {
-				case 'VKWebAppGetUserInfoResult':
-					this.setState({ fetchedUser: e.detail.data });
-					window.setGlobalState({
-						auth: {
-							user_id: e.detail.data.id,
-							signed_user_id: e.detail.data.signed_user_id,
-						}
-					})
-					this.auth({
-						user_id: e.detail.data.id,
-						signed_user_id: e.detail.data.signed_user_id,
-					})
-					break;
-				default:
-					// console.log(e.detail.type);
-			}
+	  	})
+	    // --------- /hadrcode --------
+    } else {
+	    // --------- not hadrcode --------
+			connect.subscribe((e) => {
+				
+				// alert(JSON.stringify(e))
+				switch (e.detail.type) {
+					case 'VKWebAppGetUserInfoResult':
+						this.setState({ fetchedUser: e.detail.data });
+						window.setGlobalState({
+							auth: {
+								id: e.detail.data.id,
+								signed_user_id: e.detail.data.id,
+							}
+						})
+						this.auth({
+							id: e.detail.data.id,
+							signed_user_id: e.detail.data.id,
+						})
+						break;
+					default:
+						// console.log(e.detail.type);
+				}
 
-		});
-
-    // --------- /not hadrcode --------
+			});
+	    // --------- /not hadrcode --------
+    }
 		
-		connect.send('VKWebAppGetUserInfo', {});
+    connect.send('VKWebAppGetUserInfo', {});
 
 	}
 

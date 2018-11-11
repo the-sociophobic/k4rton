@@ -1,6 +1,6 @@
 import { changeDataInUrl, getUrlData } from './utils'
 
-let subscribers = [], path = ['home'], initOpenAllowed = [], onInitRedirect = {}
+let subscribers = [], path = ['feed'], initOpenAllowed = [], onInitRedirect = {}
 const callSubscribers = () => {
   for (let subscriber of subscribers)
     subscriber(path)

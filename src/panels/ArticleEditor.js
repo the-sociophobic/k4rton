@@ -27,7 +27,8 @@ class ArticleEditor extends React.Component {
       newTagModalVisible: false,
       availibleChannels: [],
       selectedPublishers: '',
-      title: ''
+      title: '',
+      price: ''
     }
   }
   componentDidMount() {
@@ -49,7 +50,8 @@ class ArticleEditor extends React.Component {
         title: this.state.title,
         tags: this.state.tags,
         paragraphs: markup,
-        publisher: this.state.selectedPublishers
+        publisher: this.state.selectedPublishers,
+        price: this.state.price
       },
       publisherId: window.getGlobalState().auth.id
     }
@@ -128,6 +130,9 @@ class ArticleEditor extends React.Component {
                   </Button>)}
                   <Button level="outline" onClick={() => this.setState({newTagModalVisible: true})}>+</Button>
                 </Div></Group>
+                <Group>
+                  <Input value={this.state.price} placeholder="Стоимость статьи при единовременной покупке" onChange={e => this.setState({price: e.target.value})}/>
+                </Group>
               <Div className="double-buttons">
                 <Button onClick={() => this.publish()}>Опубликовать</Button>
               </Div>
